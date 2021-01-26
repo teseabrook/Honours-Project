@@ -163,15 +163,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AICore.cpp" />
     <ClCompile Include="App1.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ParameterSet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AICore.h" />
     <ClInclude Include="App1.h" />
-    <ClInclude Include="ParameterSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DXFramework\DXFramework.vcxproj">

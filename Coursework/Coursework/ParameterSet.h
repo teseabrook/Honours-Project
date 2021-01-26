@@ -46,7 +46,6 @@
 #define SPEARTIP_MIN_WIDTH 0
 #define SPEARBASE_MAX_HEIGHT 500
 #define SPEARBASE_MIN_HEIGHT 0
-#define NUM_PARAMS 43
 
 #pragma once
 #include <random>
@@ -58,107 +57,9 @@ public:
 	ParameterSet();
 	~ParameterSet();
 
-	void lockParameter(int param) { lockedParameters[param] = true; };
-	void unlockParameter(int param) { lockedParameters[param] = false; };
-
-	//Getters
-	int getWType() { return wType; };
-	bool getNBlades() { return nBlades; };
-	float getBLength() { return bLength; };
-	float getBBreadth() { return bBreadth; };
-	float getBWidth() { return bWidth; };
-	float getBCurve() { return bCurve; };
-	float getHLength() { return hLength; };
-	float getHRadius() { return hRadius; };
-	float getHTRadius() { return hTRadius; };
-	float getPRadius() { return pRadius; };
-	int getPStyle() { return pStyle; };
-	int getMaterial() { return material; };
-	int getMColour() { return mColour; };
-	int getGColour() { return gColour; };
-
-	float getCRadius() { return cRadius; };
-	float getCHeight() { return cHeight; };
-	int getCShape() { return cShape; };
-	float getCBAngle() { return cBAngle; };
-	int getNEmboss() { return nEmboss; };
-	int getCStyle() { return cShape; };
-	int getPQuality() { return pQuality; };
-	int getWCondition() { return wCondition; };
-	int getHWStyle() { return hWStyle; };
-	int getHStyle() { return hStyle; };
-	float getHCLength() { return hCLength; };
-	float getHCAngle() { return hCAngle; };
-	int getWStyle() { return wStyle; };
-	float getCLength() { return cLength; };
-	int getCoStyle() { return coStyle; };
-	float getCAmount() { return cAmount; };
-	float getFWidth() { return fWidth; };
-	float getFLength() { return fLength; };
-	float getFDepth() { return fDepth; };
-	bool getHamon() { return hamon; };
-	float getHOffset() { return hOffset; };
-	float getPLength() { return pLength; };
-	int getEType() { return eType; };
-	bool getBStyle() { return bStyle; };
-	float getHGAmount() { return hGAmount; };
-	float getStWidth() { return stWidth; };
-	float getSBHeigh() { return sBHeight; };
-	int getRLevel() { return rLevel; };
-	int getCLevel() { return cLevel; };
-
-	bool getLockState(int param);
-
-	//Setters
-	void setWType(int arg, bool lock = true);
-	void setNBlades(bool arg, bool lock = true);
-	void setBLength(float arg, bool lock = true);
-	void setBBreadth(float arg, bool lock = true);
-	void setBWidth(float arg, bool lock = true);
-	void setBCurve(float arg, bool lock = true);
-	void setHLength(float arg, bool lock = true);
-	void setHRadius(float arg, bool lock = true);
-	void setHTRadius(float arg, bool lock = true);
-	void setPRadius(float arg, bool lock = true);
-	void setPStyle(int arg, bool lock = true);
-	void setMaterial(int arg, bool lock = true);
-	void setMColour(int arg, bool lock = true);
-	void setGColour(int arg, bool lock = true);
-	void setCRadius(float arg, bool lock = true);
-	void setCHeight(float arg, bool lock = true);
-	void setCShape(int arg, bool lock = true);
-	void setCBAngle(float arg, bool lock = true);
-	void setNEmboss(int arg, bool lock = true);
-	void setCStyle(int arg, bool lock = true);
-	void setPQuality(int arg, bool lock = true);
-	void setWCondition(int arg, bool lock = true);
-	void setHWStyle(int arg, bool lock = true);
-	void setHStyle(int arg, bool lock = true);
-	void setHCLength(float arg, bool lock = true);
-	void setHCAngle(float arg, bool lock = true);
-	void setWStyle(int arg, bool lock = true);
-	void setCLength(float arg, bool lock = true);
-	void setCoStyle(int arg, bool lock = true);
-	void setCAmount(float arg, bool lock = true);
-	void setFWidth(float arg, bool lock = true);
-	void setFLength(float arg, bool lock = true);
-	void setFDepth(float arg, bool lock = true);
-	void setHamon(bool arg, bool lock = true);
-	void setHOffset(float arg, bool lock = true);
-	void setPLength(float arg, bool lock = true);
-	void setEType(int arg, bool lock = true);
-	void setBStyle(bool arg, bool lock = true);
-	void setHGAmount(float arg, bool lock = true);
-	void setStWidth(float arg, bool lock = true);
-	void setSbHeight(float arg, bool lock = true);
-	void setRLevel(int arg, bool lock = true);
-	void setCLevel(int arg, bool lock = true);
-
-	void regenerateAll();
-	void regenerateAmount(int amount);
-
 protected:
 	//The list of parameters and how they're stored internally
+	//Floats are done to 3 decimal points
 	
 	//Weapon Type
 	//0: Sword, 1: Axe, 2: Spear
@@ -345,8 +246,6 @@ protected:
 	void regenerateDamage();
 	void regenerateRLevel();
 	void regenerateCLevel();
-
-	bool lockedParameters[NUM_PARAMS] = { false };
 
 };
 
