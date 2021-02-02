@@ -19,6 +19,12 @@
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{29fa7b78-a1d4-4c78-bf14-e12807760c93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{538053b7-09d1-4beb-b7f6-fba78c7c2b0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Debug">
+      <UniqueIdentifier>{0de4a6cb-2fb8-41dc-bbcf-a6fd2aa88a3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App1.cpp">
@@ -33,6 +39,9 @@
     <ClCompile Include="AICore.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="DebugEventSystem.cpp">
+      <Filter>Source Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="AICore.h">
       <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugEventSystem.h">
+      <Filter>Header Files\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -644,7 +644,7 @@ bool ParameterSet::getLockState(int param)
 	}
 }
 
-void ParameterSet::setWType(int arg, bool lock = true)
+void ParameterSet::setWType(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 2)
 	{
@@ -653,61 +653,61 @@ void ParameterSet::setWType(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setNBlades(bool arg, bool lock = true)
+void ParameterSet::setNBlades(bool arg, bool lock)
 {
 	nBlades = arg;
 	lockedParameters[1] = lock;
 }
 
-void ParameterSet::setBLength(float arg, bool lock = true)
+void ParameterSet::setBLength(float arg, bool lock)
 {
 	bLength = arg;
 	lockedParameters[2] = lock;
 }
 
-void ParameterSet::setBBreadth(float arg, bool lock = true)
+void ParameterSet::setBBreadth(float arg, bool lock)
 {
 	bBreadth = arg;
 	lockedParameters[3] = lock;
 }
 
-void ParameterSet::setBWidth(float arg, bool lock = true)
+void ParameterSet::setBWidth(float arg, bool lock)
 {
 	bWidth = arg;
 	lockedParameters[4] = lock;
 }
 
-void ParameterSet::setBCurve(float arg, bool lock = true)
+void ParameterSet::setBCurve(float arg, bool lock)
 {
 	bCurve = arg;
 	lockedParameters[5] = lock;
 }
 
-void ParameterSet::setHLength(float arg, bool lock = true)
+void ParameterSet::setHLength(float arg, bool lock)
 {
 	hLength = arg;
 	lockedParameters[6] = lock;
 }
 
-void ParameterSet::setHRadius(float arg, bool lock = true)
+void ParameterSet::setHRadius(float arg, bool lock)
 {
 	hRadius = arg;
 	lockedParameters[7] = lock;
 }
 
-void ParameterSet::setHTRadius(float arg, bool lock = true)
+void ParameterSet::setHTRadius(float arg, bool lock)
 {
 	hTRadius = arg;
 	lockedParameters[8] = lock;
 }
 
-void ParameterSet::setPRadius(float arg, bool lock = true)
+void ParameterSet::setPRadius(float arg, bool lock)
 {
 	pRadius = arg;
 	lockedParameters[9] = lock;
 }
 
-void ParameterSet::setPStyle(int arg, bool lock = true)
+void ParameterSet::setPStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 5)
 	{
@@ -716,7 +716,7 @@ void ParameterSet::setPStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setMaterial(int arg, bool lock = true)
+void ParameterSet::setMaterial(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 2)
 	{
@@ -725,7 +725,7 @@ void ParameterSet::setMaterial(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setMColour(int arg, bool lock = true)
+void ParameterSet::setMColour(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 9)
 	{
@@ -734,7 +734,7 @@ void ParameterSet::setMColour(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setGColour(int arg, bool lock = true)
+void ParameterSet::setGColour(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 5)
 	{
@@ -743,19 +743,19 @@ void ParameterSet::setGColour(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCRadius(float arg, bool lock = true)
+void ParameterSet::setCRadius(float arg, bool lock)
 {
 	cRadius = arg;
 	lockedParameters[14] = lock;
 }
 
-void ParameterSet::setCHeight(float arg, bool lock = true)
+void ParameterSet::setCHeight(float arg, bool lock)
 {
 	cHeight = arg;
 	lockedParameters[15] = lock;
 }
 
-void ParameterSet::setCShape(int arg, bool lock = true)
+void ParameterSet::setCShape(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 3)
 	{
@@ -764,13 +764,13 @@ void ParameterSet::setCShape(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCBAngle(float arg, bool lock = true)
+void ParameterSet::setCBAngle(float arg, bool lock)
 {
 	cBAngle = arg;
 	lockedParameters[17] = lock;
 }
 
-void ParameterSet::setNEmboss(int arg, bool lock = true)
+void ParameterSet::setNEmboss(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 4)
 	{
@@ -786,7 +786,7 @@ void ParameterSet::setNEmboss(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCStyle(int arg, bool lock = true)
+void ParameterSet::setCStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 3)
 	{
@@ -795,7 +795,7 @@ void ParameterSet::setCStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setPQuality(int arg, bool lock = true)
+void ParameterSet::setPQuality(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 3)
 	{
@@ -804,7 +804,7 @@ void ParameterSet::setPQuality(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setWCondition(int arg, bool lock = true)
+void ParameterSet::setWCondition(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 4)
 	{
@@ -813,7 +813,7 @@ void ParameterSet::setWCondition(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setHWStyle(int arg, bool lock = true)
+void ParameterSet::setHWStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 2)
 	{
@@ -822,7 +822,7 @@ void ParameterSet::setHWStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setHStyle(int arg, bool lock = true)
+void ParameterSet::setHStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 3)
 	{
@@ -831,19 +831,19 @@ void ParameterSet::setHStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setHCLength(float arg, bool lock = true)
+void ParameterSet::setHCLength(float arg, bool lock)
 {
 	hCLength = arg;
 	lockedParameters[24] = lock;
 }
 
-void ParameterSet::setHCAngle(float arg, bool lock = true)
+void ParameterSet::setHCAngle(float arg, bool lock)
 {
 	hCAngle = arg;
 	lockedParameters[25] = lock;
 }
 
-void ParameterSet::setWStyle(int arg, bool lock = true)
+void ParameterSet::setWStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 4)
 	{
@@ -852,13 +852,13 @@ void ParameterSet::setWStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCLength(float arg, bool lock = true)
+void ParameterSet::setCLength(float arg, bool lock)
 {
 	cLength = arg;
 	lockedParameters[27];
 }
 
-void ParameterSet::setCoStyle(int arg, bool lock = true)
+void ParameterSet::setCoStyle(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 2)
 	{
@@ -867,49 +867,49 @@ void ParameterSet::setCoStyle(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCAmount(float arg, bool lock = true)
+void ParameterSet::setCAmount(float arg, bool lock)
 {
 	cAmount = arg;
 	lockedParameters[29] = lock;
 }
 
-void ParameterSet::setFWidth(float arg, bool lock = true)
+void ParameterSet::setFWidth(float arg, bool lock)
 {
 	fWidth = arg;
 	lockedParameters[30] = lock;
 }
 
-void ParameterSet::setFLength(float arg, bool lock = true)
+void ParameterSet::setFLength(float arg, bool lock)
 {
 	fLength = arg;
 	lockedParameters[31] = lock;
 }
 
-void ParameterSet::setFDepth(float arg, bool lock = true)
+void ParameterSet::setFDepth(float arg, bool lock)
 {
 	fDepth = arg;
 	lockedParameters[32] = lock;
 }
 
-void ParameterSet::setHamon(bool arg, bool lock = true)
+void ParameterSet::setHamon(bool arg, bool lock)
 {
 	hamon = arg;
 	lockedParameters[33] = lock;
 }
 
-void ParameterSet::setHOffset(float arg, bool lock = true)
+void ParameterSet::setHOffset(float arg, bool lock)
 {
 	hOffset = arg;
 	lockedParameters[34] = lock;
 }
 
-void ParameterSet::setPLength(float arg, bool lock = true)
+void ParameterSet::setPLength(float arg, bool lock)
 {
 	pLength = arg;
 	lockedParameters[35] = lock;
 }
 
-void ParameterSet::setEType(int arg, bool lock = true)
+void ParameterSet::setEType(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 7)
 	{
@@ -918,31 +918,31 @@ void ParameterSet::setEType(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setBStyle(bool arg, bool lock = true)
+void ParameterSet::setBStyle(bool arg, bool lock)
 {
 	bStyle = arg;
 	lockedParameters[37] = lock;
 }
 
-void ParameterSet::setHGAmount(float arg, bool lock = true)
+void ParameterSet::setHGAmount(float arg, bool lock)
 {
 	hGAmount = arg;
 	lockedParameters[38] = lock;
 }
 
-void ParameterSet::setStWidth(float arg, bool lock = true)
+void ParameterSet::setStWidth(float arg, bool lock)
 {
 	stWidth = arg;
 	lockedParameters[39] = lock;
 }
 
-void ParameterSet::setSbHeight(float arg, bool lock = true)
+void ParameterSet::setSbHeight(float arg, bool lock)
 {
 	sBHeight = arg;
 	lockedParameters[40] = lock;
 }
 
-void ParameterSet::setRLevel(int arg, bool lock = true)
+void ParameterSet::setRLevel(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 10)
 	{
@@ -951,7 +951,7 @@ void ParameterSet::setRLevel(int arg, bool lock = true)
 	}
 }
 
-void ParameterSet::setCLevel(int arg, bool lock = true)
+void ParameterSet::setCLevel(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 7)
 	{

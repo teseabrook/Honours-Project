@@ -4,6 +4,11 @@
 
 // Includes
 #include "../DXFramework/DXF.h"
+#include "DebugEventSystem.h"
+#include "Timer.h"
+#include "AICore.h"
+#include "ParameterSet.h"
+#include <thread>
 
 
 class App1 : public BaseApplication
@@ -19,8 +24,20 @@ public:
 protected:
 	bool render();
 	void gui();
+	void aiThreadFunc(AICore* core);
 
 private:
+	DebugEventSystem* eventSystem;
+	DebugEventSystem::DebugEvent lastEvent;
+	AICore* aiCore;
+
+
+
+	float elapsedTime = 0.0f;
+	float deltaTime = 0.0f;
+	int eventDisplayTime = 1;
+
+	//Timer timer;
 
 };
 

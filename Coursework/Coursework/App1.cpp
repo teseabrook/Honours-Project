@@ -7,13 +7,23 @@ App1::App1()
 
 }
 
+void App1::aiThreadFunc(AICore* core)
+{
+}
+
+
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in, bool VSYNC, bool FULL_SCREEN)
 {
 	// Call super/parent init function (required!)
 	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in, VSYNC, FULL_SCREEN);
+	eventSystem = new DebugEventSystem();
+	aiCore = new AICore(eventSystem, "E:\\Coursework 2020-2021\\Honours-Project\\Coursework\\media\\rules.json", "E:\\Coursework 2020-2021\\Honours-Project\\Coursework\\media\\criteria.json");
 
 	// Initalise scene variables.
-	
+	//eventSystem->addEvent("SYSTEM", "Hello", "main");
+	lastEvent = eventSystem->getNextEvent();
+
+	aiCore->generateParameterSet();
 
 }
 
@@ -24,12 +34,22 @@ App1::~App1()
 	BaseApplication::~BaseApplication();
 
 	// Release the Direct3D object.
-	
-}
 
+}
 
 bool App1::frame()
 {
+	timer->frame();
+
+	deltaTime = timer->getTime();
+
+	elapsedTime += deltaTime;
+	if (elapsedTime >= eventDisplayTime)
+	{
+		elapsedTime = 0;
+		lastEvent = eventSystem->getNextEvent();
+	}
+	
 	bool result;
 
 	result = BaseApplication::frame();
@@ -82,6 +102,18 @@ void App1::gui()
 	// Build UI
 	ImGui::Text("FPS: %.2f", timer->getFPS());
 	ImGui::Checkbox("Wireframe mode", &wireframeToggle);
+
+
+	//Construct the event string
+	const char* eventString = "";
+	std::string st;
+	st = "[";
+	st += lastEvent.type;
+	st += "] ";
+	st += lastEvent.eventMessage;
+	eventString = st.c_str();
+
+	ImGui::Text(eventString);
 
 	// Render UI
 	ImGui::Render();

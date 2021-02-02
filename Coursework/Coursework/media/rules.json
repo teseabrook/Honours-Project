@@ -1,0 +1,9 @@
+{
+	"rules" : [
+	{
+    		"parameter1" : "bBreadth",
+        	"parameter2" : "bLength",
+        	"operator" : ">"
+	}
+    ]
+}
