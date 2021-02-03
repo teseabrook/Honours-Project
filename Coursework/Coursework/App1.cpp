@@ -18,12 +18,14 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in, VSYNC, FULL_SCREEN);
 	eventSystem = new DebugEventSystem();
 	aiCore = new AICore(eventSystem, "E:\\Coursework 2020-2021\\Honours-Project\\Coursework\\media\\rules.json", "E:\\Coursework 2020-2021\\Honours-Project\\Coursework\\media\\criteria.json");
+	//profile = new DnDProfile(new ParameterSet);
 
 	// Initalise scene variables.
 	//eventSystem->addEvent("SYSTEM", "Hello", "main");
 	lastEvent = eventSystem->getNextEvent();
 
-	aiCore->generateParameterSet();
+	set = aiCore->generateParameterSet();
+	profile = new DnDProfile(set);
 
 }
 
@@ -114,6 +116,42 @@ void App1::gui()
 	eventString = st.c_str();
 
 	ImGui::Text(eventString);
+
+	eventString = "";
+	st = "Name: ";
+	st += profile->getWeaponName();
+	eventString = st.c_str();
+	ImGui::Text(eventString);
+
+	eventString = "";
+	st = "Damage Bonus: ";
+
+	if (profile->getDamageBonus() > 0)
+	{
+		st += "+";
+	}
+
+	st += to_string(profile->getDamageBonus());
+	eventString = st.c_str();
+	ImGui::Text(eventString);
+
+	eventString = "";
+	st = "Bonus Damage: ";
+	
+	if (profile->getEffectType() == "None")
+	{
+		st += "None";
+	}
+	else
+	{
+		st += profile->getEffectDice();
+		st += " ";
+		st += profile->getEffectType();
+	}
+	eventString = st.c_str();
+	ImGui::Text(eventString);
+
+
 
 	// Render UI
 	ImGui::Render();

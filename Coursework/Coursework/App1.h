@@ -9,6 +9,7 @@
 #include "AICore.h"
 #include "ParameterSet.h"
 #include <thread>
+#include "DnDProfile.h"
 
 
 class App1 : public BaseApplication
@@ -30,6 +31,9 @@ private:
 	DebugEventSystem* eventSystem;
 	DebugEventSystem::DebugEvent lastEvent;
 	AICore* aiCore;
+	ParameterSet* set;
+
+	DnDProfile* profile;
 
 
 
