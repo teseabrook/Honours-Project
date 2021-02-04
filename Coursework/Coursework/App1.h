@@ -10,6 +10,9 @@
 #include "ParameterSet.h"
 #include <thread>
 #include "DnDProfile.h"
+#include "HiltMeshGenerator.h"
+#include <Light.h>
+#include "LightShader.h"
 
 
 class App1 : public BaseApplication
@@ -34,7 +37,9 @@ private:
 	ParameterSet* set;
 
 	DnDProfile* profile;
-
+	HiltMeshGenerator* hiltMesh;
+	Light* light;
+	LightShader* shader;
 
 
 	float elapsedTime = 0.0f;

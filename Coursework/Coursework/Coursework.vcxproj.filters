@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Debug">
       <UniqueIdentifier>{0de4a6cb-2fb8-41dc-bbcf-a6fd2aa88a3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Mesh Generation">
+      <UniqueIdentifier>{3ac4296c-9c03-45d7-8b1b-501df8973fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mesh Generation">
+      <UniqueIdentifier>{e332959d-bb77-413b-bb9c-64fb3c789b8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App1.cpp">
@@ -43,6 +49,12 @@
       <Filter>Source Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="DnDProfile.cpp">
+      <Filter>Source Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="HiltMeshGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,7 +72,17 @@
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
     <ClInclude Include="DnDProfile.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="HiltMeshGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LightShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\light_ps.hlsl" />
+    <FxCompile Include="shaders\light_vs.hlsl" />
   </ItemGroup>
 </Project>

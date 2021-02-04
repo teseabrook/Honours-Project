@@ -24,8 +24,19 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	//eventSystem->addEvent("SYSTEM", "Hello", "main");
 	lastEvent = eventSystem->getNextEvent();
 
+	textureMgr->loadTexture(L"grass", L"res/grass.png");
+
 	set = aiCore->generateParameterSet();
 	profile = new DnDProfile(set);
+
+	shader = new LightShader(renderer->getDevice(), hwnd);
+
+	hiltMesh = new HiltMeshGenerator(renderer->getDevice(), renderer->getDeviceContext(), set);
+
+	light = new Light;
+	light->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
+	light->setDiffuseColour(0.75f, 0.75f, 0.75f, 1.0f);
+	light->setDirection(1.0f, -0.0f, 0.0f);
 
 }
 
@@ -83,7 +94,9 @@ bool App1::render()
 	XMMATRIX viewMatrix = camera->getViewMatrix();
 	XMMATRIX projectionMatrix = renderer->getProjectionMatrix();
 
-	
+	hiltMesh->sendData(renderer->getDeviceContext());
+	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+	shader->render(renderer->getDeviceContext(), hiltMesh->getIndexCount());
 
 	// Render GUI
 	gui();
