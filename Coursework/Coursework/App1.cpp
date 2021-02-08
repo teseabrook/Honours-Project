@@ -66,6 +66,9 @@ bool App1::frame()
 	bool result;
 
 	result = BaseApplication::frame();
+
+	//Camera controls
+
 	if (!result)
 	{
 		return false;
