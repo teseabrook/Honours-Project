@@ -38,6 +38,8 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	light->setDiffuseColour(0.75f, 0.75f, 0.75f, 1.0f);
 	light->setDirection(1.0f, -0.0f, 0.0f);
 
+	camera->setPosition(camera->getPosition().x, camera->getPosition().y, camera->getPosition().z - 150);
+
 }
 
 
@@ -73,7 +75,57 @@ bool App1::frame()
 	{
 		return false;
 	}
-	
+
+	//Camera controls
+	if (input->isKeyDown(VK_DOWN))
+	{
+		camera->setPosition(camera->getPosition().x, camera->getPosition().y - 0.5f, camera->getPosition().z);
+	}
+	else if (input->isKeyDown(VK_UP))
+	{
+		camera->setPosition(camera->getPosition().x, camera->getPosition().y + 0.5f, camera->getPosition().z);
+	}
+	else if (input->isKeyDown(VK_LEFT))
+	{
+		camera->setPosition(camera->getPosition().x - 0.5f, camera->getPosition().y, camera->getPosition().z);
+	}
+	else if (input->isKeyDown(VK_RIGHT))
+	{
+		camera->setPosition(camera->getPosition().x + 0.5f, camera->getPosition().y, camera->getPosition().z);
+	}
+	else if (input->isKeyDown(VK_NUMPAD7))
+	{
+		camera->setPosition(camera->getPosition().x, camera->getPosition().y, camera->getPosition().z + 1.0f);
+	}
+	else if (input->isKeyDown(VK_NUMPAD9))
+	{
+		camera->setPosition(camera->getPosition().x, camera->getPosition().y, camera->getPosition().z - 1.0f);
+	}
+	else if (input->isKeyDown(VK_NUMPAD1))
+	{
+		camera->setRotation(camera->getRotation().x, camera->getRotation().y - 1, camera->getRotation().z);
+	}
+	else if (input->isKeyDown(VK_NUMPAD3))
+	{
+		camera->setRotation(camera->getRotation().x, camera->getRotation().y + 1, camera->getRotation().z);
+	}
+	else if (input->isKeyDown(VK_NUMPAD2))
+	{
+		camera->setRotation(camera->getRotation().x + 1, camera->getRotation().y, camera->getRotation().z);
+	}
+	else if (input->isKeyDown(VK_NUMPAD8))
+	{
+		camera->setRotation(camera->getRotation().x - 1, camera->getRotation().y, camera->getRotation().z);
+	}
+	else if (input->isKeyDown(VK_NUMPAD4))
+	{
+		camera->setRotation(camera->getRotation().x, camera->getRotation().y, camera->getRotation().z + 1);
+	}
+	else if (input->isKeyDown(VK_NUMPAD6))
+	{
+		camera->setRotation(camera->getRotation().x, camera->getRotation().y, camera->getRotation().z - 1);
+	}
+
 	// Render the graphics.
 	result = render();
 	if (!result)

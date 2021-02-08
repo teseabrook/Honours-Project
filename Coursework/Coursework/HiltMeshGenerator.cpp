@@ -1,6 +1,6 @@
 #include "HiltMeshGenerator.h"
 
-#define DEBUG_SCALE_FACTOR 50.0f
+#define DEBUG_SCALE_FACTOR 10.0f
 
 HiltMeshGenerator::HiltMeshGenerator(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ParameterSet* a_set)
 {
