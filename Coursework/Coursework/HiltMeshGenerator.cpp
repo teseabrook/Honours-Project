@@ -1,6 +1,6 @@
 #include "HiltMeshGenerator.h"
 
-#define DEBUG_SCALE_FACTOR 10.0f
+#define DEBUG_SCALE_FACTOR 5.0f
 
 HiltMeshGenerator::HiltMeshGenerator(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ParameterSet* a_set)
 {
@@ -17,8 +17,6 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 {
 	int resolution = 10;
 
-	VertexType* vertices;
-	unsigned long* indices;
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
@@ -32,62 +30,7 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	vertices[0].position = XMFLOAT3(0, 0, -1.0f);
-	vertices[0].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[0].texture = XMFLOAT2(0.0f, 0.0f);
-
-	vertices[1].position = XMFLOAT3(0, set->getHRadius() / DEBUG_SCALE_FACTOR, -2.0f);
-	vertices[1].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[1].texture = XMFLOAT2(0.0f, 0.0f);
-
-	float lastX = 0.0f;
-	float lastY = set->getHRadius();
-
-	int vCounter = 2;
-	int iCounter = 0;
-
-	int loops = 360;
-
-	for (int i = 0; i < loops; i++)
-	{
-		//For any given triangle tN, it consists of the points (0, 0, 1/2HL) [Vertex 0], (xtN-1, ytN-1, 0) and (xtN, ytN, 0), forming a triangle of angles pi/180, 179pi/360 and 179pi/360 and sides hR, hR and sin(pi/180) * hR/sin(179pi/180)
-		//when n = 0, xN and yN = 0
-		//For any other n, the coordinates should be (hR * sin(theta), hR * cos(theta * i))
-		float theta = (std::_Pi / 180) * (i + 1);
-
-		float newX = (set->getHRadius() / DEBUG_SCALE_FACTOR) * sin(theta);
-		float newY = (set->getHRadius() / DEBUG_SCALE_FACTOR) * cos(theta);
-		vertices[vCounter].position = XMFLOAT3(newX, newY, -2.0f);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
-
-		if (i == (loops - 1))
-		{
-			indices[iCounter] = 0;
-			iCounter++;
-			indices[iCounter] = 1;
-			iCounter++;
-			indices[iCounter] = vCounter - 1;
-			iCounter++;
-		}
-
-		else
-		{
-			indices[iCounter] = 0;
-			iCounter++;
-			indices[iCounter] = vCounter;
-			iCounter++;
-			indices[iCounter] = vCounter - 1;
-			iCounter++;
-		}
-
-		vCounter++;
-
-		lastX = newX;
-		lastY = newY;
-
-	}
-
+	generateCircle(XMFLOAT3(0.0f, 0.0f, -2.0f), set->getHRadius());
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -123,4 +66,64 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 
 	//delete[] indices;
 	//indices = 0;
+}
+
+void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
+{
+	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	vCounter++;
+
+	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	vCounter++;
+
+	float lastX = 0.0f;
+	float lastY = radius;
+
+	int loops = 360;
+
+	for (int i = 0; i < loops; i++)
+	{
+		//For any given triangle tN, it consists of the points (0, 0, 1/2HL) [Vertex 0], (xtN-1, ytN-1, 0) and (xtN, ytN, 0), forming a triangle of angles pi/180, 179pi/360 and 179pi/360 and sides hR, hR and sin(pi/180) * hR/sin(179pi/180)
+		//when n = 0, xN and yN = 0
+		//For any other n, the coordinates should be (hR * sin(theta), hR * cos(theta * i))
+		float theta = (std::_Pi / 180) * (i + 1);
+
+		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
+		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
+		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
+		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+		if (i == (loops - 1))
+		{
+			indices[iCounter] = 0;
+			iCounter++;
+			indices[iCounter] = 1;
+			iCounter++;
+			indices[iCounter] = vCounter - 1;
+			iCounter++;
+		}
+
+		else
+		{
+			indices[iCounter] = 0;
+			iCounter++;
+			indices[iCounter] = vCounter;
+			iCounter++;
+			indices[iCounter] = vCounter - 1;
+			iCounter++;
+		}
+
+		vCounter++;
+
+		lastX = newX;
+		lastY = newY;
+
+	}
 }

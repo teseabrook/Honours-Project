@@ -18,5 +18,13 @@ public:
 protected:
 	void initBuffers(ID3D11Device* device);
 	ParameterSet* set;
+
+	void generateCircle(XMFLOAT3 centre, float radius);
+
+	VertexType* vertices;
+	unsigned long* indices;
+
+	int vCounter = 0;
+	int iCounter = 0;
 };
 
