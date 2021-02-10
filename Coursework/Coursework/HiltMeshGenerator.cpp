@@ -21,16 +21,27 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
 	// 360 points on the circle, 1 extra for the centre
-	vertexCount = 362;
+	//Doubled for 2 circles
+	vertexCount = 362 * 2;
 
-	//360 * 3 vertexes
-	indexCount = 361 * 3;
+	//360 * 3 * 2 vertexes
+	indexCount = 361 * 3 * 2;
 
 	// Create the vertex and index array.
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	generateCircle(XMFLOAT3(0.0f, 0.0f, -2.0f), set->getHRadius());
+	generateCircle(XMFLOAT3(0.0f, 0.0f, -100.0f), set->getHRadius());
+	
+	if (set->getWType() != 0)
+	{
+		//If it's not a sword
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -100 + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius());
+	}
+	else
+	{
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -100 + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHTRadius());
+	}
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -70,6 +81,8 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 
 void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
 {
+	int vCounterStart = vCounter;
+
 	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
 	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
@@ -102,9 +115,9 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
 
 		if (i == (loops - 1))
 		{
-			indices[iCounter] = 0;
+			indices[iCounter] = vCounterStart;
 			iCounter++;
-			indices[iCounter] = 1;
+			indices[iCounter] = vCounterStart + 1;
 			iCounter++;
 			indices[iCounter] = vCounter - 1;
 			iCounter++;
@@ -112,7 +125,7 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
 
 		else
 		{
-			indices[iCounter] = 0;
+			indices[iCounter] = vCounterStart;
 			iCounter++;
 			indices[iCounter] = vCounter;
 			iCounter++;
