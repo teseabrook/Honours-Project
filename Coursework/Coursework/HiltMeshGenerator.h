@@ -20,6 +20,7 @@ protected:
 	ParameterSet* set;
 
 	void generateCircle(XMFLOAT3 centre, float radius);
+	void generateSides();
 
 	VertexType* vertices;
 	unsigned long* indices;

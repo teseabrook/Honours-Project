@@ -23,8 +23,8 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	// 360 points on the circle, 1 extra for the centre
 	vertexCount = 362 *2;
 
-	//360 * 3 vertexes
-	indexCount = 361 * 3 * 2;
+	//360 * 3 vertexes, plus 360 * 6 for sides
+	indexCount = 361 * 3 * 2 + 360 * 6;
 
 	// Create the vertex and index array.
 	vertices = new VertexType[vertexCount];
@@ -34,12 +34,14 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 
 	if (set->getWType() != 0)
 	{
-		generateCircle(XMFLOAT3(0.0f, 0.0f, -120.0f), set->getHRadius());
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius());
 	}
 	else
 	{
-		generateCircle(XMFLOAT3(0.0f, 0.0f, -120.0f), set->getHTRadius());
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHTRadius());
 	}
+
+	generateSides();
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -136,5 +138,25 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
 		lastX = newX;
 		lastY = newY;
 
+	}
+}
+
+void HiltMeshGenerator::generateSides()
+{
+	for (int i = 0; i < 360; i++)
+	{
+		indices[iCounter] = i + 1;
+		iCounter++;
+		indices[iCounter] = i + 2;
+		iCounter++;
+		indices[iCounter] = i + 363;
+		iCounter++;
+
+		indices[iCounter] = i + 2;
+		iCounter++;
+		indices[iCounter] = i + 364;
+		iCounter++;
+		indices[iCounter] = i + 363;
+		iCounter++;
 	}
 }
