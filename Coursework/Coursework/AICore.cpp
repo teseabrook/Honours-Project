@@ -43,18 +43,18 @@ ParameterSet* AICore::generateParameterSet()
 		if (winner != -1)
 		{
 			generateGeneration(P[winner]);
+			n++;
 		}
 		else
 		{
 			//All parameters failed, regenerate them all
 			generateInitialGeneration();
 		}
-		n++;
 	} while (n < numGenerations);
 
 
 
-	return P[numMembers - 1];
+	return &P[numMembers - 1];
 }
 
 bool AICore::parseJSON(const char* rPath, const char* cPath)
@@ -151,6 +151,7 @@ bool AICore::getCriteriaFromFile(rapidjson::Document & doc)
 
 void AICore::generateInitialGeneration()
 {
+	P.clear();
 	eventSystem->addEvent("SYSTEM", "Generating Initial Parameters", "AICore");
 	//First, check to see if there's user input
 	bool hasUserInput = false;
@@ -162,47 +163,43 @@ void AICore::generateInitialGeneration()
 	//Now, loop 10 times and generate statistics
 	for (int i = 0; i < numMembers; i++)
 	{
-		ParameterSet* p = new ParameterSet;
+		ParameterSet p;
 
 		if (hasUserInput)
 		{
-			p = inputParams;
-		}
-		else
-		{
-			p = new ParameterSet();
+			p = *inputParams;
 		}
 		
 		//Regenerate all statistics
 		//User provided statistics will be locked so they won't be regenerated
 
 		eventSystem->addEvent("SYSTEM", "Generating Parameter Set", "AI");
-		p->regenerateAll();
+		p.regenerateAll();
 		P.push_back(p);
 
 	}
 
 }
 
-void AICore::generateGeneration(ParameterSet* arg)
+void AICore::generateGeneration(ParameterSet arg)
 {
 	//Set the last P to the winner of the generation
-	P[numMembers - 1] = arg;
+	P.clear();
 
 	//Loop through the others and regenerate them
 	for (int i = 0; i < numMembers - 1; i++)
 	{
-		//Set the parameter to the winner of the generation
-		P[i] = arg;
+		ParameterSet set = arg;
 
-		//Mutate a random number of parameters
 		int mutations = rand() % NUM_PARAMS;
-		P[i]->regenerateAmount(mutations);
-
+		set.regenerateAmount(mutations);
+		P.push_back(set);
 	}
+
+	P.push_back(arg);
 }
 
-bool AICore::evaluateParametersAgainstRules(ParameterSet* input)
+bool AICore::evaluateParametersAgainstRules(ParameterSet input)
 {
 	//Rules here
 	for (int i = 0; i < rules.size(); i++)
@@ -215,10 +212,18 @@ bool AICore::evaluateParametersAgainstRules(ParameterSet* input)
 				{
 					return false;
 				}
-				else if (getRuleValueAsFloat(rules[i].param1, input) > rules[i].value)
-				{
-					return false;
-				}
+			}
+			else if (getRuleValueAsFloat(rules[i].param1, input) > rules[i].value)
+			{
+				return false;
+			}
+			
+		}
+		if (rules[i].op == "=")
+		{
+			if (getRuleValueAsFloat(rules[i].param1, input) != rules[i].value)
+			{
+				return false;
 			}
 		}
 	}
@@ -227,26 +232,36 @@ bool AICore::evaluateParametersAgainstRules(ParameterSet* input)
 	return true;
 }
 
-int AICore::evaluateParametersAgainstCriteria(ParameterSet* input)
+int AICore::evaluateParametersAgainstCriteria(ParameterSet input)
 {
 	int score = 0;
 
 	//Arbritary test criteria. The longer the blade is, the higher the score.
-	score += input->getBLength() / 100;
+	for (int i = 0; i < criteria.size(); i++)
+	{
+		if (criteria[i].ruleType == "absMult")
+		{
+			score += getRuleValueAsFloat(criteria[i].param1, input) * criteria[i].multiplier;
+		}
+	}
 
 	return score;
 }
 
-float AICore::getRuleValueAsFloat(std::string param, ParameterSet* input)
+float AICore::getRuleValueAsFloat(std::string param, ParameterSet input)
 {
 	//It doesnt like strings or const chars being used in switch statements
 	if (param == "bBreadth")
 	{
-		return input->getBBreadth();
+		return input.getBBreadth();
 	}
 	else if (param == "bLength")
 	{
-		return input->getBLength();
+		return input.getBLength();
+	}
+	else if (param == "hStyle")
+	{
+		return input.getHStyle();
 	}
 	else
 	{

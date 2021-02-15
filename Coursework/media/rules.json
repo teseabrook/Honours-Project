@@ -1,9 +1,14 @@
 {
-	"rules": [
+	"rules" : [
 	{
-    		"parameter1": "bBreadth",
-        	"parameter2": "bLength",
-        	"operator": ">"
+    		"parameter1" : "bLength",
+        	"parameter2" : "bBreadth",
+        	"operator" : ">"
+	},
+	{
+		"parameter1" : "hStyle",
+		"value" : 1.0,
+		"operator" : "="
 	}
     ]
 }

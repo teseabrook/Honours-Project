@@ -1,8 +1,0 @@
-{
-	"criteria" : [
-	{
-    		"parameter1" : "bLength",
-        	"multiplier" : "0.01"
-	}
-    ]
-}

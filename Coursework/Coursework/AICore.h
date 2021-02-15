@@ -35,23 +35,23 @@ public:
 	};
 
 protected:
-	std::vector<ParameterSet*> P;
+	std::vector<ParameterSet> P;
 	ParameterSet* inputParams;
 
 	std::vector<Rule> rules;
 	std::vector<Criteria> criteria;
 
-	bool evaluateParametersAgainstRules(ParameterSet* input);
-	int evaluateParametersAgainstCriteria(ParameterSet* input);
+	bool evaluateParametersAgainstRules(ParameterSet input);
+	int evaluateParametersAgainstCriteria(ParameterSet input);
 
-	void generateGeneration(ParameterSet* in);
+	void generateGeneration(ParameterSet in);
 	void generateInitialGeneration();
 
 	bool parseJSON(const char* rPath, const char* cPath);
 	bool getRulesFromFile(rapidjson::Document & doc);
 	bool getCriteriaFromFile(rapidjson::Document & doc);
 
-	float getRuleValueAsFloat(std::string value, ParameterSet* input);
+	float getRuleValueAsFloat(std::string value, ParameterSet input);
 
 	DebugEventSystem* eventSystem;
 

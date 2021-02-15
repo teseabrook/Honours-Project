@@ -4,7 +4,6 @@
 
 ParameterSet::ParameterSet()
 {
-	srand(time(NULL));
 	regenerateAll();
 }
 
@@ -403,6 +402,7 @@ void ParameterSet::regenerateCLevel()
 
 void ParameterSet::regenerateAll()
 {
+
 	regenerateWType();
 	regenerateNBlades();
 	regenerateBLength();
@@ -449,6 +449,7 @@ void ParameterSet::regenerateAll()
 
 void ParameterSet::regenerateAmount(int a)
 {
+
 	//Regenerates a Random parameters
 	do
 	{

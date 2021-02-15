@@ -1,9 +1,9 @@
 {
 	"criteria" : [
 	{
-    		"parameter1": "bLength",
-        	"multiplier": 0.1,
-		"ruletype": "value"
+    		"parameter1" : "bLength",
+		"ruletype" : "absMult",
+        	"multiplier" : 0.01
 	}
     ]
 }

@@ -24,7 +24,10 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	//eventSystem->addEvent("SYSTEM", "Hello", "main");
 	lastEvent = eventSystem->getNextEvent();
 
-	textureMgr->loadTexture(L"grass", L"res/grass.png");
+	textureMgr->loadTexture(L"wood", L"res/wood.png");
+	textureMgr->loadTexture(L"metal", L"res/metal.png");
+	textureMgr->loadTexture(L"stone", L"res/stone.png");
+
 
 	set = aiCore->generateParameterSet();
 	profile = new DnDProfile(set);
@@ -32,6 +35,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	shader = new LightShader(renderer->getDevice(), hwnd);
 
 	hiltMesh = new HiltMeshGenerator(renderer->getDevice(), renderer->getDeviceContext(), set);
+	hiltMesh->addTexture(textureMgr->getTexture(L"wood"));
+	hiltMesh->addTexture(textureMgr->getTexture(L"metal"));
+	hiltMesh->addTexture(textureMgr->getTexture(L"stone"));
 
 	light = new Light;
 	light->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
@@ -150,7 +156,7 @@ bool App1::render()
 	XMMATRIX projectionMatrix = renderer->getProjectionMatrix();
 
 	hiltMesh->sendData(renderer->getDeviceContext());
-	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
 	shader->render(renderer->getDeviceContext(), hiltMesh->getIndexCount());
 
 	// Render GUI
