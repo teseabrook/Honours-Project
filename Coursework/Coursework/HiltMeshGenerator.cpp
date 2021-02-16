@@ -51,11 +51,11 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	}
 	else if (set->getHStyle() == 1)
 	{
-		//4 per side for top/bottom, 4 per side for long sides
-		vertexCount = 8 + 8;
+		//4 per side for top/bottom, 8 per side for long sides
+		vertexCount = 8 + 16;
 
-		//6 for top/bottom, 6 for sides, 12 per side for long side
-		indexCount = 24 + 24;
+		//6 for top/bottom, 6 for sides, 24 per side for long side
+		indexCount = 24 + (24 * 2);
 
 		// Create the vertex and index array.
 		vertices = new VertexType[vertexCount];
@@ -374,5 +374,113 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	indices[iCounter] = start + 15;
 	iCounter++;
 	indices[iCounter] = start + 6;
+	iCounter++;
+
+	//Left Close
+	vertices[vCounter].position = vertices[start + 8].position;
+	vertices[vCounter].position.z += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 10].position;
+	vertices[vCounter].position.z += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	indices[iCounter] = start + 16;
+	iCounter++;
+	indices[iCounter] = start + 8;
+	iCounter++;
+	indices[iCounter] = start + 10;
+	iCounter++;
+
+	indices[iCounter] = start + 10;
+	iCounter++;
+	indices[iCounter] = start + 17;
+	iCounter++;
+	indices[iCounter] = start + 16;
+	iCounter++;
+
+	//Left Far
+	vertices[vCounter].position = vertices[start + 9].position;
+	vertices[vCounter].position.z -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 11].position;
+	vertices[vCounter].position.z -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	indices[iCounter] = start + 18;
+	iCounter++;
+	indices[iCounter] = start + 11;
+	iCounter++;
+	indices[iCounter] = start + 9;
+	iCounter++;
+
+	indices[iCounter] = start + 11;
+	iCounter++;
+	indices[iCounter] = start + 18;
+	iCounter++;
+	indices[iCounter] = start + 19;
+	iCounter++;
+
+	//Right Close
+	vertices[vCounter].position = vertices[start + 12].position;
+	vertices[vCounter].position.z += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 14].position;
+	vertices[vCounter].position.z += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	indices[iCounter] = start + 20;
+	iCounter++;
+	indices[iCounter] = start + 14;
+	iCounter++;
+	indices[iCounter] = start + 12;
+	iCounter++;
+
+	indices[iCounter] = start + 14;
+	iCounter++;
+	indices[iCounter] = start + 20;
+	iCounter++;
+	indices[iCounter] = start + 21;
+	iCounter++;
+
+	//Right Far
+	vertices[vCounter].position = vertices[start + 13].position;
+	vertices[vCounter].position.z -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 15].position;
+	vertices[vCounter].position.z -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	indices[iCounter] = start + 22;
+	iCounter++;
+	indices[iCounter] = start + 13;
+	iCounter++;
+	indices[iCounter] = start + 15;
+	iCounter++;
+
+	indices[iCounter] = start + 15;
+	iCounter++;
+	indices[iCounter] = start + 23;
+	iCounter++;
+	indices[iCounter] = start + 22;
 	iCounter++;
 }
