@@ -51,10 +51,13 @@
     <ClCompile Include="DnDProfile.cpp">
       <Filter>Source Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="HiltMeshGenerator.cpp">
+    <ClCompile Include="LightShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LightShader.cpp">
+    <ClCompile Include="HiltMeshGenerator.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="HighPolyDeformMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,10 +77,13 @@
     <ClInclude Include="DnDProfile.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="HiltMeshGenerator.h">
+    <ClInclude Include="LightShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LightShader.h">
+    <ClInclude Include="HiltMeshGenerator.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="HighPolyDeformMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,7 @@
 HiltMeshGenerator::HiltMeshGenerator(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ParameterSet* a_set)
 {
 	set = a_set;
+	dContext = deviceContext;
 	initBuffers(device);
 }
 
@@ -37,11 +38,11 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 
 		if (set->getWType() != 0)
 		{
-			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius());
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
 		}
 		else
 		{
-			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHTRadius());
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHTRadius(), true);
 		}
 
 
@@ -51,21 +52,32 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	}
 	else if (set->getHStyle() == 1)
 	{
-		//4 per side for top/bottom, 8 per side for long sides
-		vertexCount = 8 + 16;
+		//4 per side for top/bottom, 8 per side for long sides, 4 per side for each wall thing
+		vertexCount = 8 + 16 + 8;
 
-		//6 for top/bottom, 6 for sides, 24 per side for long side
-		indexCount = 24 + (24 * 2);
+		//6 for top/bottom, 6 for sides, 24 per side for long side, 6 * 4 per side for the walls
+		indexCount = 24 + (24 * 2) + (6 * 4 * 2);
 
 		// Create the vertex and index array.
 		vertices = new VertexType[vertexCount];
 		indices = new unsigned long[indexCount];
 
-		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
-		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius());
+		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius(), false);
+		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
 
 		generateSquareSides(0);
 		generateRecessSides(0, set->getHRadius());
+		generateWallThings(16, ((set->getHRadius() / DEBUG_SCALE_FACTOR * 0.3) * 0.25));
+
+		XMFLOAT2 size;
+		size.x = abs(vertices[16 + 8].position.y - vertices[16 + 9].position.y);
+		size.y = abs(vertices[16 + 8].position.z - vertices[16 + 10].position.z);
+
+		HighPolyDeformMesh* m = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 8].position, size);
+		deformMeshes.push_back(m);
+
+		HighPolyDeformMesh* m1 = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 12].position, size, true);
+		deformMeshes.push_back(m1);
 	}
 
 	// Set up the description of the static vertex buffer.
@@ -104,7 +116,7 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	//indices = 0;
 }
 
-void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
+void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 {
 	int vCounterStart = vCounter;
 
@@ -140,22 +152,46 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius)
 
 		if (i == (loops - 1))
 		{
-			indices[iCounter] = vCounterStart;
-			iCounter++;
-			indices[iCounter] = vCounterStart + 1;
-			iCounter++;
-			indices[iCounter] = vCounter - 1;
-			iCounter++;
+			if (invert)
+			{
+				indices[iCounter] = vCounterStart;
+				iCounter++;
+				indices[iCounter] = vCounterStart -1;
+				iCounter++;
+				indices[iCounter] = vCounter = 1;
+				iCounter++;
+			}
+			else
+			{
+				indices[iCounter] = vCounterStart;
+				iCounter++;
+				indices[iCounter] = vCounterStart + 1;
+				iCounter++;
+				indices[iCounter] = vCounter - 1;
+				iCounter++;
+			}
 		}
 
 		else
 		{
-			indices[iCounter] = vCounterStart;
-			iCounter++;
-			indices[iCounter] = vCounter;
-			iCounter++;
-			indices[iCounter] = vCounter - 1;
-			iCounter++;
+			if (invert)
+			{
+				indices[iCounter] = vCounterStart;
+				iCounter++;
+				indices[iCounter] = vCounter - 1;
+				iCounter++;
+				indices[iCounter] = vCounter;
+				iCounter++;
+			}
+			else
+			{
+				indices[iCounter] = vCounterStart;
+				iCounter++;
+				indices[iCounter] = vCounter;
+				iCounter++;
+				indices[iCounter] = vCounter - 1;
+				iCounter++;
+			}
 		}
 
 		vCounter++;
@@ -186,26 +222,26 @@ void HiltMeshGenerator::generateSides(int circle1Start)
 	}
 }
 
-void HiltMeshGenerator::generateSquare(XMFLOAT3 centre, float radius)
+void HiltMeshGenerator::generateSquare(XMFLOAT3 centre, float radius, bool invert = false)
 {
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		float theta;
 		switch (i)
 		{
-			case 0:
-				theta = 30;
-				break;
-			case 1:
-				theta = 150;
-				break;
-			case 2:
-				theta = 210;
-				break;
-			case 3:
-				theta = 330;
-				break;
+		case 0:
+			theta = 30;
+			break;
+		case 1:
+			theta = 150;
+			break;
+		case 2:
+			theta = 210;
+			break;
+		case 3:
+			theta = 330;
+			break;
 		}
 
 		vertices[vCounter].position = XMFLOAT3((radius / DEBUG_SCALE_FACTOR) * sin((std::_Pi / 180) * (theta)) + centre.x, (radius / DEBUG_SCALE_FACTOR) * cos((std::_Pi / 180) * (theta)) + centre.y, centre.z);
@@ -214,19 +250,38 @@ void HiltMeshGenerator::generateSquare(XMFLOAT3 centre, float radius)
 		vCounter++;
 	}
 
-	indices[iCounter] = vCounter - 4;
-	iCounter++;
-	indices[iCounter] = vCounter - 2;
-	iCounter++;
-	indices[iCounter] = vCounter - 3;
-	iCounter++;
+	if (invert)
+	{
+		indices[iCounter] = vCounter - 4;
+		iCounter++;
+		indices[iCounter] = vCounter - 3;
+		iCounter++;
+		indices[iCounter] = vCounter - 2;
+		iCounter++;
 
-	indices[iCounter] = vCounter - 4;
-	iCounter++;
-	indices[iCounter] = vCounter - 1;
-	iCounter++;
-	indices[iCounter] = vCounter - 2;
-	iCounter++;
+		indices[iCounter] = vCounter - 4;
+		iCounter++;
+		indices[iCounter] = vCounter - 2;
+		iCounter++;
+		indices[iCounter] = vCounter - 1;
+		iCounter++;
+	}
+	else
+	{
+		indices[iCounter] = vCounter - 4;
+		iCounter++;
+		indices[iCounter] = vCounter - 2;
+		iCounter++;
+		indices[iCounter] = vCounter - 3;
+		iCounter++;
+
+		indices[iCounter] = vCounter - 4;
+		iCounter++;
+		indices[iCounter] = vCounter - 1;
+		iCounter++;
+		indices[iCounter] = vCounter - 2;
+		iCounter++;
+	}
 
 }
 
@@ -483,4 +538,173 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	iCounter++;
 	indices[iCounter] = start + 22;
 	iCounter++;
+}
+
+void HiltMeshGenerator::generateWallThings(int start, float indent)
+{
+	//Verticies
+	vertices[vCounter].position = vertices[start].position;
+	vertices[vCounter].position.x -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 1].position;
+	vertices[vCounter].position.x -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 2].position;
+	vertices[vCounter].position.x -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 3].position;
+	vertices[vCounter].position.x -= indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 4].position;
+	vertices[vCounter].position.x += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 5].position;
+	vertices[vCounter].position.x += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 6].position;
+	vertices[vCounter].position.x += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	vertices[vCounter].position = vertices[start + 7].position;
+	vertices[vCounter].position.x += indent;
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	vCounter++;
+
+	//Right Side
+	indices[iCounter] = start;
+	iCounter++;
+	indices[iCounter] = start + 1;
+	iCounter++;
+	indices[iCounter] = start + 8;
+	iCounter++;
+
+	indices[iCounter] = start + 1;
+	iCounter++;
+	indices[iCounter] = start + 9;
+	iCounter++;
+	indices[iCounter] = start + 8;
+	iCounter++;
+
+	indices[iCounter] = start + 2;
+	iCounter++;
+	indices[iCounter] = start + 10;
+	iCounter++;
+	indices[iCounter] = start + 3;
+	iCounter++;
+
+	indices[iCounter] = start + 3;
+	iCounter++;
+	indices[iCounter] = start + 10;
+	iCounter++;
+	indices[iCounter] = start + 11;
+	iCounter++;
+
+	indices[iCounter] = start;
+	iCounter++;
+	indices[iCounter] = start + 8;
+	iCounter++;
+	indices[iCounter] = start + 10;
+	iCounter++;
+
+	indices[iCounter] = start;
+	iCounter++;
+	indices[iCounter] = start + 10;
+	iCounter++;
+	indices[iCounter] = start + 2;
+	iCounter++;
+
+	indices[iCounter] = start + 1;
+	iCounter++;
+	indices[iCounter] = start + 11;
+	iCounter++;
+	indices[iCounter] = start + 9;
+	iCounter++;
+
+	indices[iCounter] = start + 1;
+	iCounter++;
+	indices[iCounter] = start + 3;
+	iCounter++;
+	indices[iCounter] = start + 11;
+	iCounter++;
+
+	//Left Side
+	indices[iCounter] = start + 4;
+	iCounter++;
+	indices[iCounter] = start + 6;
+	iCounter++;
+	indices[iCounter] = start + 12;
+	iCounter++;
+
+	indices[iCounter] = start + 12;
+	iCounter++;
+	indices[iCounter] = start + 6;
+	iCounter++;
+	indices[iCounter] = start + 14;
+	iCounter++;
+
+	indices[iCounter] = start + 5;
+	iCounter++;
+	indices[iCounter] = start + 13;
+	iCounter++;
+	indices[iCounter] = start + 7;
+	iCounter++;
+
+	indices[iCounter] = start + 13;
+	iCounter++;
+	indices[iCounter] = start + 15;
+	iCounter++;
+	indices[iCounter] = start + 7;
+	iCounter++;
+
+	indices[iCounter] = start + 6;
+	iCounter++;
+	indices[iCounter] = start + 7;
+	iCounter++;
+	indices[iCounter] = start + 15;
+	iCounter++;
+
+	indices[iCounter] = start + 6;
+	iCounter++;
+	indices[iCounter] = start + 15;
+	iCounter++;
+	indices[iCounter] = start + 14;
+	iCounter++;
+
+	indices[iCounter] = start + 4;
+	iCounter++;
+	indices[iCounter] = start + 13;
+	iCounter++;
+	indices[iCounter] = start + 5;
+	iCounter++;
+
+	indices[iCounter] = start + 4;
+	iCounter++;
+	indices[iCounter] = start + 12;
+	iCounter++;
+	indices[iCounter] = start + 13;
+	iCounter++;
+
+	
+	
 }

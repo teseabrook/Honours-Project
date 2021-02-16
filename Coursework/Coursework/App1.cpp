@@ -27,6 +27,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture(L"wood", L"res/wood.png");
 	textureMgr->loadTexture(L"metal", L"res/metal.png");
 	textureMgr->loadTexture(L"stone", L"res/stone.png");
+	textureMgr->loadTexture(L"bunny", L"res/bunny.png");
 
 
 	set = aiCore->generateParameterSet();
@@ -155,9 +156,23 @@ bool App1::render()
 	XMMATRIX viewMatrix = camera->getViewMatrix();
 	XMMATRIX projectionMatrix = renderer->getProjectionMatrix();
 
+	//Render the hilt
 	hiltMesh->sendData(renderer->getDeviceContext());
 	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
 	shader->render(renderer->getDeviceContext(), hiltMesh->getIndexCount());
+
+	//Render the deform meshes
+	if (set->getHStyle() == 1)
+	{
+		hiltMesh->getDeformMesh(0)->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(0)->getIndexCount());
+
+		hiltMesh->getDeformMesh(1)->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(1)->getIndexCount());
+
+	}
 
 	// Render GUI
 	gui();

@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include <string.h>
+#include "HighPolyDeformMesh.h"
 
 using namespace DirectX;
 
@@ -20,6 +21,8 @@ public:
 	ID3D11ShaderResourceView* getTexture() { return textures[texture]; };
 	void addTexture(ID3D11ShaderResourceView* s) { textures.push_back(s); };
 
+	HighPolyDeformMesh* getDeformMesh(int m) { return deformMeshes[m]; };
+
 protected:
 	void initBuffers(ID3D11Device* device);
 	ParameterSet* set;
@@ -27,12 +30,16 @@ protected:
 	std::vector<ID3D11ShaderResourceView*> textures;
 	int texture = 0;
 
-	void generateCircle(XMFLOAT3 centre, float radius);
+	void generateCircle(XMFLOAT3 centre, float radius, bool invert = false);
 	void generateSides(int circle1Start);
 
-	void generateSquare(XMFLOAT3 centre, float radius);
+	void generateSquare(XMFLOAT3 centre, float radius, bool invert);
 	void generateSquareSides(int start);
 	void generateRecessSides(int start, float radius);
+	void generateWallThings(int start, float indent);
+
+	std::vector<HighPolyDeformMesh*> deformMeshes;
+	ID3D11DeviceContext* dContext;
 
 	VertexType* vertices;
 	unsigned long* indices;
