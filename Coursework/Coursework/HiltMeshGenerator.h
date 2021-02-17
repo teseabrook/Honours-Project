@@ -31,6 +31,7 @@ protected:
 	int texture = 0;
 
 	void generateCircle(XMFLOAT3 centre, float radius, bool invert = false);
+	void generateInvisCircle(XMFLOAT3 centre, float radius);
 	void generateSides(int circle1Start);
 
 	void generateSquare(XMFLOAT3 centre, float radius, bool invert);

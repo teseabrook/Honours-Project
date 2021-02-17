@@ -79,6 +79,52 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 		HighPolyDeformMesh* m1 = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 12].position, size, true);
 		deformMeshes.push_back(m1);
 	}
+	else if (set->getHStyle() == 0)
+	{
+		float length = ceil(set->getHLength() / DEBUG_SCALE_FACTOR);
+
+		// 360 points on the circle, 1 extra for the centre
+		vertexCount = 362 * (2 + length);
+
+		//360 * 3 vertexes, plus 360 * 6 for sides
+		indexCount = 361 * 3 * 2 + 361 * (6 * length);
+
+		// Create the vertex and index array.
+		vertices = new VertexType[vertexCount];
+		indices = new unsigned long[indexCount];
+
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
+
+		bool shrink = true;
+
+		for (int i = 0; i < length; i++)
+		{
+			if (i != 0 && i % 2 == 0)
+			{
+				if (shrink)
+				{
+					generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius() * 0.9f);
+					shrink = false;
+				}
+				else
+				{
+					generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius());
+					shrink = true;
+				}
+			}
+		}
+
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius());
+
+		for (int i = 0; i < length / 2; i++)
+		{
+			generateSides(362 * i + 1);
+		}
+
+		texture = set->getMaterial();
+
+		
+	}
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -194,6 +240,48 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius, bool inver
 			}
 		}
 
+		vCounter++;
+
+		lastX = newX;
+		lastY = newY;
+
+	}
+}
+
+void HiltMeshGenerator::generateInvisCircle(XMFLOAT3 centre, float radius)
+{
+	int vCounterStart = vCounter;
+
+	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	vCounter++;
+
+	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	vCounter++;
+
+	float lastX = 0.0f;
+	float lastY = radius;
+
+	int loops = 360;
+
+	for (int i = 0; i < loops; i++)
+	{
+		//For any given triangle tN, it consists of the points (0, 0, 1/2HL) [Vertex 0], (xtN-1, ytN-1, 0) and (xtN, ytN, 0), forming a triangle of angles pi/180, 179pi/360 and 179pi/360 and sides hR, hR and sin(pi/180) * hR/sin(179pi/180)
+		//when n = 0, xN and yN = 0
+		//For any other n, the coordinates should be (hR * sin(theta), hR * cos(theta * i))
+		float theta = (std::_Pi / 180) * (i + 1);
+
+		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
+		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
+		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
+		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	
 		vCounter++;
 
 		lastX = newX;
