@@ -6,8 +6,8 @@
         	"operator" : ">"
 	},
 	{
-		"parameter1" : "hStyle",
-		"value" : 0.0,
+		"parameter1" : "hWStyle",
+		"value" : 2.0,
 		"operator" : "="
 	}
     ]

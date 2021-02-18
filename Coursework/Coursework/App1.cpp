@@ -161,17 +161,26 @@ bool App1::render()
 	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
 	shader->render(renderer->getDeviceContext(), hiltMesh->getIndexCount());
 
-	//Render the deform meshes
-	if (set->getHStyle() == 1)
+	if (set->getHWStyle() == 2)
 	{
-		hiltMesh->getDeformMesh(0)->sendData(renderer->getDeviceContext());
+		hiltMesh->getWrapMesh()->sendData(renderer->getDeviceContext());
 		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
-		shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(0)->getIndexCount());
+		shader->render(renderer->getDeviceContext(), hiltMesh->getWrapMesh()->getIndexCount());
+	}
+	else
+	{
+		//Render the deform meshes
+		if (set->getHStyle() == 1)
+		{
+			hiltMesh->getDeformMesh(0)->sendData(renderer->getDeviceContext());
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+			shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(0)->getIndexCount());
 
-		hiltMesh->getDeformMesh(1)->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
-		shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(1)->getIndexCount());
+			hiltMesh->getDeformMesh(1)->sendData(renderer->getDeviceContext());
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+			shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(1)->getIndexCount());
 
+		}
 	}
 
 	// Render GUI

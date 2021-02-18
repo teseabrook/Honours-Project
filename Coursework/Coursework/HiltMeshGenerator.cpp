@@ -21,8 +21,8 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-
-	if (set->getHStyle() > 1)
+	//Skip normal gen if we're fully wrapped
+	if (set->getHWStyle() == 2)
 	{
 		// 360 points on the circle, 1 extra for the centre
 		vertexCount = 362 * 2;
@@ -36,94 +36,119 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 
 		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
 
-		if (set->getWType() != 0)
-		{
+		
 			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
-		}
-		else
-		{
-			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHTRadius(), true);
-		}
-
-
-		generateSides(1);
+		
 
 		texture = set->getMaterial();
+
+		wrapMesh = new HiltWrapMesh(device, dContext, set);
 	}
-	else if (set->getHStyle() == 1)
+	else
 	{
-		//4 per side for top/bottom, 8 per side for long sides, 4 per side for each wall thing
-		vertexCount = 8 + 16 + 8;
-
-		//6 for top/bottom, 6 for sides, 24 per side for long side, 6 * 4 per side for the walls
-		indexCount = 24 + (24 * 2) + (6 * 4 * 2);
-
-		// Create the vertex and index array.
-		vertices = new VertexType[vertexCount];
-		indices = new unsigned long[indexCount];
-
-		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius(), false);
-		generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
-
-		generateSquareSides(0);
-		generateRecessSides(0, set->getHRadius());
-		generateWallThings(16, ((set->getHRadius() / DEBUG_SCALE_FACTOR * 0.3) * 0.25));
-
-		XMFLOAT2 size;
-		size.x = abs(vertices[16 + 8].position.y - vertices[16 + 9].position.y);
-		size.y = abs(vertices[16 + 8].position.z - vertices[16 + 10].position.z);
-
-		HighPolyDeformMesh* m = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 8].position, size);
-		deformMeshes.push_back(m);
-
-		HighPolyDeformMesh* m1 = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 12].position, size, true);
-		deformMeshes.push_back(m1);
-	}
-	else if (set->getHStyle() == 0)
-	{
-		float length = ceil(set->getHLength() / DEBUG_SCALE_FACTOR);
-
-		// 360 points on the circle, 1 extra for the centre
-		vertexCount = 362 * (2 + length);
-
-		//360 * 3 vertexes, plus 360 * 6 for sides
-		indexCount = 361 * 3 * 2 + 361 * (6 * length);
-
-		// Create the vertex and index array.
-		vertices = new VertexType[vertexCount];
-		indices = new unsigned long[indexCount];
-
-		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
-
-		bool shrink = true;
-
-		for (int i = 0; i < length; i++)
+		if (set->getHStyle() > 1)
 		{
-			if (i != 0 && i % 2 == 0)
+			// 360 points on the circle, 1 extra for the centre
+			vertexCount = 362 * 2;
+
+			//360 * 3 vertexes, plus 360 * 6 for sides
+			indexCount = 361 * 3 * 2 + 360 * 6;
+
+			// Create the vertex and index array.
+			vertices = new VertexType[vertexCount];
+			indices = new unsigned long[indexCount];
+
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
+
+			if (set->getWType() != 0)
 			{
-				if (shrink)
+				generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
+			}
+			else
+			{
+				generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHTRadius(), true);
+			}
+
+
+			generateSides(1);
+
+			texture = set->getMaterial();
+		}
+		else if (set->getHStyle() == 1)
+		{
+			//4 per side for top/bottom, 8 per side for long sides, 4 per side for each wall thing
+			vertexCount = 8 + 16 + 8;
+
+			//6 for top/bottom, 6 for sides, 24 per side for long side, 6 * 4 per side for the walls
+			indexCount = 24 + (24 * 2) + (6 * 4 * 2);
+
+			// Create the vertex and index array.
+			vertices = new VertexType[vertexCount];
+			indices = new unsigned long[indexCount];
+
+			generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius(), false);
+			generateSquare(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
+
+			generateSquareSides(0);
+			generateRecessSides(0, set->getHRadius());
+			generateWallThings(16, ((set->getHRadius() / DEBUG_SCALE_FACTOR * 0.3) * 0.25));
+
+			XMFLOAT2 size;
+			size.x = abs(vertices[16 + 8].position.y - vertices[16 + 9].position.y);
+			size.y = abs(vertices[16 + 8].position.z - vertices[16 + 10].position.z);
+
+			HighPolyDeformMesh* m = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 8].position, size);
+			deformMeshes.push_back(m);
+
+			HighPolyDeformMesh* m1 = new HighPolyDeformMesh(device, dContext, set, vertices[16 + 12].position, size, true);
+			deformMeshes.push_back(m1);
+		}
+		else if (set->getHStyle() == 0)
+		{
+			float length = ceil(set->getHLength() / DEBUG_SCALE_FACTOR);
+
+			// 360 points on the circle, 1 extra for the centre
+			vertexCount = 362 * (2 + length);
+
+			//360 * 3 vertexes, plus 360 * 6 for sides
+			indexCount = 361 * 3 * 2 + 361 * (6 * length);
+
+			// Create the vertex and index array.
+			vertices = new VertexType[vertexCount];
+			indices = new unsigned long[indexCount];
+
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
+
+			bool shrink = true;
+
+			for (int i = 0; i < length; i++)
+			{
+				if (i != 0 && i % 2 == 0)
 				{
-					generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius() * 0.9f);
-					shrink = false;
-				}
-				else
-				{
-					generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius());
-					shrink = true;
+					if (shrink)
+					{
+						generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius() * 0.9f);
+						shrink = false;
+					}
+					else
+					{
+						generateInvisCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + i), set->getHRadius());
+						shrink = true;
+					}
 				}
 			}
+
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius());
+
+			for (int i = 0; i < length / 2; i++)
+			{
+				generateSides(362 * i + 1);
+			}
+
+			texture = set->getMaterial();
+
+
 		}
-
-		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius());
-
-		for (int i = 0; i < length / 2; i++)
-		{
-			generateSides(362 * i + 1);
-		}
-
-		texture = set->getMaterial();
-
-		
 	}
 
 	// Set up the description of the static vertex buffer.

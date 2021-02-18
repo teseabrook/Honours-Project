@@ -5,6 +5,7 @@
 #include <vector>
 #include <string.h>
 #include "HighPolyDeformMesh.h"
+#include "HiltWrapMesh.h"
 
 using namespace DirectX;
 
@@ -22,6 +23,7 @@ public:
 	void addTexture(ID3D11ShaderResourceView* s) { textures.push_back(s); };
 
 	HighPolyDeformMesh* getDeformMesh(int m) { return deformMeshes[m]; };
+	HiltWrapMesh* getWrapMesh() { return wrapMesh; };
 
 protected:
 	void initBuffers(ID3D11Device* device);
@@ -40,6 +42,7 @@ protected:
 	void generateWallThings(int start, float indent);
 
 	std::vector<HighPolyDeformMesh*> deformMeshes;
+	HiltWrapMesh* wrapMesh;
 	ID3D11DeviceContext* dContext;
 
 	VertexType* vertices;
