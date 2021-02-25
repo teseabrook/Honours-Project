@@ -66,6 +66,9 @@
     <ClCompile Include="HiltCapMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PommelMeshGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files\Mesh Generation</Filter>
     </ClInclude>
     <ClInclude Include="HiltCapMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PommelMeshGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

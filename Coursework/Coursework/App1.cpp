@@ -2,6 +2,8 @@
 // Lab 1 example, simple coloured triangle mesh
 #include "App1.h"
 
+#define DEBUG_SCALE_FACTOR 25.0f
+
 App1::App1()
 {
 
@@ -39,6 +41,8 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	hiltMesh->addTexture(textureMgr->getTexture(L"wood"));
 	hiltMesh->addTexture(textureMgr->getTexture(L"metal"));
 	hiltMesh->addTexture(textureMgr->getTexture(L"stone"));
+
+	pommel = new PommelMeshGenerator(set, renderer->getDevice(), renderer->getDeviceContext());
 
 	light = new Light;
 	light->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
@@ -190,6 +194,17 @@ bool App1::render()
 			shader->render(renderer->getDeviceContext(), hiltMesh->getDeformMesh(1)->getIndexCount());
 
 		}
+	}
+
+	//Render the pommel
+	if (set->getPStyle() == 1 || set->getPStyle() == 3)
+	{
+		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius / 2)));
+
+		pommel ->getMesh()->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 	}
 
 	// Render GUI

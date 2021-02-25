@@ -49,7 +49,7 @@ void HiltWrapMesh::initBuffers(ID3D11Device* device)
 	{
 		float numLoops = ceil((set->getHLength() / DEBUG_SCALE_FACTOR) / 25.0f);
 
-		vertexCount = 360 * 2 + 360 * 4 * (1 + 4 * numLoops);
+		vertexCount = 360 * 2 + 360 * 4 * (1 + 6 * numLoops);
 
 
 		indexCount = 360 * 10 * (3 + numLoops);

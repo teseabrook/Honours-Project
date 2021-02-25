@@ -6,7 +6,7 @@
         	"operator" : ">"
 	},
 	{
-		"parameter1" : "hWStyle",
+		"parameter1" : "pStyle",
 		"value" : 1.0,
 		"operator" : "="
 	}

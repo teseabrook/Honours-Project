@@ -267,6 +267,10 @@ float AICore::getRuleValueAsFloat(std::string param, ParameterSet input)
 	{
 		return input.getHWStyle();
 	}
+	else if (param == "pStyle")
+	{
+		return input.getPStyle();
+	}
 	else
 	{
 		//Parameter doesn't exist or is a float

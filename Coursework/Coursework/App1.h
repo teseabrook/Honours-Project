@@ -13,6 +13,7 @@
 #include "HiltMeshGenerator.h"
 #include <Light.h>
 #include "LightShader.h"
+#include "PommelMeshGenerator.h"
 
 
 class App1 : public BaseApplication
@@ -40,6 +41,7 @@ private:
 	HiltMeshGenerator* hiltMesh;
 	Light* light;
 	LightShader* shader;
+	PommelMeshGenerator* pommel;
 
 
 	float elapsedTime = 0.0f;
