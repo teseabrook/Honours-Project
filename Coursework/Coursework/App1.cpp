@@ -161,11 +161,20 @@ bool App1::render()
 	shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
 	shader->render(renderer->getDeviceContext(), hiltMesh->getIndexCount());
 
-	if (set->getHWStyle() == 2)
+	if (set->getHWStyle() >= 1 && set->getHStyle() != 1)
 	{
 		hiltMesh->getWrapMesh()->sendData(renderer->getDeviceContext());
 		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
 		shader->render(renderer->getDeviceContext(), hiltMesh->getWrapMesh()->getIndexCount());
+
+		hiltMesh->getCapMesh(0)->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
+		shader->render(renderer->getDeviceContext(), hiltMesh->getCapMesh(0)->getIndexCount());
+
+		hiltMesh->getCapMesh(1)->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, hiltMesh->getTexture(), light);
+		shader->render(renderer->getDeviceContext(), hiltMesh->getCapMesh(1)->getIndexCount());
+
 	}
 	else
 	{

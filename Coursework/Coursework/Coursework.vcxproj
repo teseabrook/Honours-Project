@@ -168,6 +168,7 @@
     <ClCompile Include="DebugEventSystem.cpp" />
     <ClCompile Include="DnDProfile.cpp" />
     <ClCompile Include="HighPolyDeformMesh.cpp" />
+    <ClCompile Include="HiltCapMesh.cpp" />
     <ClCompile Include="HiltMeshGenerator.cpp" />
     <ClCompile Include="HiltWrapMesh.cpp" />
     <ClCompile Include="LightShader.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="DebugEventSystem.h" />
     <ClInclude Include="DnDProfile.h" />
     <ClInclude Include="HighPolyDeformMesh.h" />
+    <ClInclude Include="HiltCapMesh.h" />
     <ClInclude Include="HiltMeshGenerator.h" />
     <ClInclude Include="HiltWrapMesh.h" />
     <ClInclude Include="LightShader.h" />

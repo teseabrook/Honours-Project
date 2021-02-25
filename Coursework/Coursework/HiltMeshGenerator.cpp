@@ -43,6 +43,9 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 		texture = set->getMaterial();
 
 		wrapMesh = new HiltWrapMesh(device, dContext, set);
+
+		hiltCaps[0] = new HiltCapMesh(device, dContext, set);
+		hiltCaps[1] = new HiltCapMesh(device, dContext, set);
 	}
 	else
 	{
@@ -148,6 +151,13 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 			texture = set->getMaterial();
 
 
+		}
+
+		if (set->getHWStyle() == 1)
+		{
+			wrapMesh = new HiltWrapMesh(device, dContext, set, true);
+			hiltCaps[0] = new HiltCapMesh(device, dContext, set);
+			hiltCaps[1] = new HiltCapMesh(device, dContext, set);
 		}
 	}
 

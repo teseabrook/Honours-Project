@@ -6,6 +6,7 @@
 #include <string.h>
 #include "HighPolyDeformMesh.h"
 #include "HiltWrapMesh.h"
+#include "HiltCapMesh.h"
 
 using namespace DirectX;
 
@@ -24,6 +25,7 @@ public:
 
 	HighPolyDeformMesh* getDeformMesh(int m) { return deformMeshes[m]; };
 	HiltWrapMesh* getWrapMesh() { return wrapMesh; };
+	HiltCapMesh* getCapMesh(int mesh) { return hiltCaps[mesh]; };
 
 protected:
 	void initBuffers(ID3D11Device* device);
@@ -42,6 +44,7 @@ protected:
 	void generateWallThings(int start, float indent);
 
 	std::vector<HighPolyDeformMesh*> deformMeshes;
+	HiltCapMesh* hiltCaps[2];
 	HiltWrapMesh* wrapMesh;
 	ID3D11DeviceContext* dContext;
 
