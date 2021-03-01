@@ -166,7 +166,9 @@
     <ClCompile Include="AICore.cpp" />
     <ClCompile Include="App1.cpp" />
     <ClCompile Include="DebugEventSystem.cpp" />
+    <ClCompile Include="DiskMesh.cpp" />
     <ClCompile Include="DnDProfile.cpp" />
+    <ClCompile Include="GemMesh.cpp" />
     <ClCompile Include="HighPolyDeformMesh.cpp" />
     <ClCompile Include="HiltCapMesh.cpp" />
     <ClCompile Include="HiltMeshGenerator.cpp" />
@@ -180,7 +182,9 @@
     <ClInclude Include="AICore.h" />
     <ClInclude Include="App1.h" />
     <ClInclude Include="DebugEventSystem.h" />
+    <ClInclude Include="DiskMesh.h" />
     <ClInclude Include="DnDProfile.h" />
+    <ClInclude Include="GemMesh.h" />
     <ClInclude Include="HighPolyDeformMesh.h" />
     <ClInclude Include="HiltCapMesh.h" />
     <ClInclude Include="HiltMeshGenerator.h" />

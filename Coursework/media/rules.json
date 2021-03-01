@@ -7,7 +7,12 @@
 	},
 	{
 		"parameter1" : "pStyle",
-		"value" : 1.0,
+		"value" : 5.0,
+		"operator" : "="
+	},
+	{
+		"parameter1" : "hWStyle",
+		"value" : 2.0,
 		"operator" : "="
 	}
     ]

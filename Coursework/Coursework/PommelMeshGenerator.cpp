@@ -24,12 +24,25 @@ void PommelMeshGenerator::generatePommel()
 			pommelMesh = new SphereMesh(device, deviceContext);
 			break;
 
+		case 2:
+			pommelMesh = new DiskMesh(device, deviceContext, set);
+			break;
+
 		case 3:
 			pommelMesh = new SphereMesh(device, deviceContext);
 			break;
 
+		case 5:
+			pommelMesh = new DiskMesh(device, deviceContext, set);
+			break;
+
 		default:
 			break;
+	}
+
+	if (style == 5)
+	{
+		gemMesh = new GemMesh(device, deviceContext, set);
 	}
 }
 

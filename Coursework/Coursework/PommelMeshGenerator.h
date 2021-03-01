@@ -2,6 +2,8 @@
 #include "ParameterSet.h"
 #include "BaseMesh.h"
 #include "SphereMesh.h"
+#include "DiskMesh.h"
+#include "GemMesh.h"
 
 class PommelMeshGenerator
 {
@@ -10,9 +12,11 @@ public:
 	~PommelMeshGenerator();
 
 	BaseMesh* getMesh() { return pommelMesh; };
+	GemMesh* getGemMesh() { return gemMesh; };
 
 protected:
 	BaseMesh* pommelMesh;
+	GemMesh* gemMesh;
 	ID3D11Device* device;
 	ID3D11DeviceContext* deviceContext;
 

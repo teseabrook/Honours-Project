@@ -51,9 +51,6 @@
     <ClCompile Include="DnDProfile.cpp">
       <Filter>Source Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="LightShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HiltMeshGenerator.cpp">
       <Filter>Source Files\Mesh Generation</Filter>
     </ClCompile>
@@ -63,10 +60,19 @@
     <ClCompile Include="HiltWrapMesh.cpp">
       <Filter>Source Files\Mesh Generation</Filter>
     </ClCompile>
-    <ClCompile Include="HiltCapMesh.cpp">
+    <ClCompile Include="PommelMeshGenerator.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PommelMeshGenerator.cpp">
+    <ClCompile Include="HiltCapMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GemMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -99,9 +105,15 @@
       <Filter>Header Files\Mesh Generation</Filter>
     </ClInclude>
     <ClInclude Include="HiltCapMesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Mesh Generation</Filter>
     </ClInclude>
     <ClInclude Include="PommelMeshGenerator.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GemMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

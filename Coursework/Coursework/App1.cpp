@@ -30,6 +30,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture(L"metal", L"res/metal.png");
 	textureMgr->loadTexture(L"stone", L"res/stone.png");
 	textureMgr->loadTexture(L"bunny", L"res/bunny.png");
+	textureMgr->loadTexture(L"grass", L"res/grass.png");
 
 
 	set = aiCore->generateParameterSet();
@@ -183,7 +184,7 @@ bool App1::render()
 	else
 	{
 		//Render the deform meshes
-		if (set->getHStyle() == 1)
+		if (set->getHStyle() == 1 && set->getHWStyle() != 2)
 		{
 			hiltMesh->getDeformMesh(0)->sendData(renderer->getDeviceContext());
 			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
@@ -197,13 +198,28 @@ bool App1::render()
 	}
 
 	//Render the pommel
-	if (set->getPStyle() == 1 || set->getPStyle() == 3)
+	if (set->getPStyle() == 1 || set->getPStyle() == 2 || set->getPStyle() == 3)
 	{
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
 		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius / 2)));
 
 		pommel ->getMesh()->sendData(renderer->getDeviceContext());
 		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
+	}
+	else if (set->getPStyle() == 5)
+	{
+		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius / 2)));
+
+		pommel->getMesh()->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
+
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f + (radius)));
+
+		pommel->getGemMesh()->sendData(renderer->getDeviceContext());
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 	}
 

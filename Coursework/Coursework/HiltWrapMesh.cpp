@@ -29,7 +29,7 @@ void HiltWrapMesh::initBuffers(ID3D11Device* device)
 	{
 		float numLoops = ceil((set->getHLength() / DEBUG_SCALE_FACTOR) / 25.0f);
 
-		vertexCount = 360 * 2 + 360 * (1 + numLoops);
+		vertexCount = 360 * 4 + 360 * (1 + numLoops);
 
 
 		indexCount = 360 * 6 * (3 + numLoops);
@@ -228,7 +228,7 @@ void HiltWrapMesh::generateBackwardSpiralPoints(XMFLOAT3 centre, float radius, i
 void HiltWrapMesh::generateSpiral(int start)
 {
 	float numLoops = ceil((set->getHLength() / DEBUG_SCALE_FACTOR) / 25.0f);
-	int loops = 360 * (numLoops + 1);
+	int loops = 360 * (numLoops + 3);
 	
 
 	float height = 140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR);
