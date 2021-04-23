@@ -1,5 +1,12 @@
 //Note: As c++ cannot nativley produce random floats, the min and max values are the min and max values multiplied by 10 billion (Moved 10DP up)
 
+/*
+ * ParameterSet.h
+ * Generate a set of parameters randomly within the given minimums and maximums
+ */
+
+//Mins and maxes
+//TODO Replace this with a JSON
 #define BLADE_MAX_LENGTH 1000
 #define BLADE_MIN_LENGTH 0
 #define BLADE_MAX_BREADTH 750
@@ -8,11 +15,11 @@
 #define BLADE_MIN_WIDTH 0
 #define BLADE_MAX_CURVE 31415926535
 #define BLADE_MIN_CURVE 15707963267
-#define HILT_MAX_LENGTH 2000
+#define HILT_MAX_LENGTH 4000
 #define HILT_MIN_LENGTH 0
-#define HILT_MAX_RADIUS 250
+#define HILT_MAX_RADIUS 400
 #define HILT_MIN_RADIUS 0
-#define HILTTAPER_MAX_RADIUS 250
+#define HILTTAPER_MAX_RADIUS 400
 #define HILTTAPER_MIN_RADIUS 0
 #define POMMEL_MAX_RADIUS 100
 #define POMMEL_MIN_RADIUS 0
@@ -22,7 +29,7 @@
 #define CROSSGUARD_MIN_HEIGHT 0
 #define CROSSGUARD_MAX_BEND 7853981633
 #define CROSSGUARD_MIN_BEND 0
-#define HILTCOLLAR_MAX_LENGTH 100
+#define HILTCOLLAR_MAX_LENGTH 200
 #define HILTCOLLAR_MIN_LENGTH 0
 #define HILTCOLLAR_MAX_ANGLE 7853981633
 #define HILTCOLLAR_MIN_ANGLE 0
@@ -58,6 +65,7 @@ public:
 	ParameterSet();
 	~ParameterSet();
 
+	//Lock and unlock the specified parameter. The system will refuse to regenerate any locked parameters
 	void lockParameter(int param) { lockedParameters[param] = true; };
 	void unlockParameter(int param) { lockedParameters[param] = false; };
 
@@ -76,13 +84,12 @@ public:
 	int getMaterial() { return material; };
 	int getMColour() { return mColour; };
 	int getGColour() { return gColour; };
-
 	float getCRadius() { return cRadius; };
 	float getCHeight() { return cHeight; };
 	int getCShape() { return cShape; };
 	float getCBAngle() { return cBAngle; };
 	int getNEmboss() { return nEmboss; };
-	int getCStyle() { return cShape; };
+	int getCStyle() { return cStyle; };
 	int getPQuality() { return pQuality; };
 	int getWCondition() { return wCondition; };
 	int getHWStyle() { return hWStyle; };
@@ -107,6 +114,7 @@ public:
 	int getRLevel() { return rLevel; };
 	int getCLevel() { return cLevel; };
 
+	//Gets the lock state of the specified parameter
 	bool getLockState(int param);
 
 	//Setters
@@ -154,7 +162,10 @@ public:
 	void setRLevel(int arg, bool lock = true);
 	void setCLevel(int arg, bool lock = true);
 
+	//Regenerates all parameters
 	void regenerateAll();
+
+	//Regenerates a specified number of random parameters
 	void regenerateAmount(int amount);
 
 protected:
@@ -346,6 +357,7 @@ protected:
 	void regenerateRLevel();
 	void regenerateCLevel();
 
+	//Default all params to uinlocked
 	bool lockedParameters[NUM_PARAMS] = { false };
 
 };

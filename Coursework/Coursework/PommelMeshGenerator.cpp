@@ -29,16 +29,18 @@ void PommelMeshGenerator::generatePommel()
 			break;
 
 		case 3:
-			pommelMesh = new SphereMesh(device, deviceContext);
+			pommelMesh = new ClawMesh(device, deviceContext, set);
 			break;
 
 		case 5:
-			pommelMesh = new DiskMesh(device, deviceContext, set);
+			pommelMesh = new ClawMesh(device, deviceContext, set);
 			break;
 
 		default:
 			break;
 	}
+
+	
 
 	if (style == 5)
 	{

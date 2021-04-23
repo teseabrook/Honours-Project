@@ -69,10 +69,31 @@
     <ClCompile Include="HiltCapMesh.cpp">
       <Filter>Source Files\Mesh Generation</Filter>
     </ClCompile>
+    <ClCompile Include="ClawMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
     <ClCompile Include="DiskMesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Mesh Generation</Filter>
     </ClCompile>
     <ClCompile Include="GemMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="BarMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossguardMeshGenerator.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="EmbossedDiskMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="SpearBaseMesh.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeartipMeshGenerator.cpp">
+      <Filter>Source Files\Mesh Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordBladeMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,10 +131,31 @@
     <ClInclude Include="PommelMeshGenerator.h">
       <Filter>Header Files\Mesh Generation</Filter>
     </ClInclude>
+    <ClInclude Include="ClawMesh.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
     <ClInclude Include="DiskMesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Mesh Generation</Filter>
     </ClInclude>
     <ClInclude Include="GemMesh.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeartipMeshGenerator.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="SpearBaseMesh.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="EmbossedDiskMesh.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossguardMeshGenerator.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="BarMesh.h">
+      <Filter>Header Files\Mesh Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordBladeMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

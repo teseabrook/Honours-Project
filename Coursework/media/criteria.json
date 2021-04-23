@@ -1,9 +1,9 @@
 {
 	"criteria" : [
 	{
-    		"parameter1" : "bLength",
-		"ruletype" : "absMult",
-        	"multiplier" : 0.01
+		"parameter1" : "hRadius",
+		"parameter2" : "hTRadius",
+		"ctype" : "invdiff"
 	}
     ]
 }

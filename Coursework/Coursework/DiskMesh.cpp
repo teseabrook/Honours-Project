@@ -4,8 +4,9 @@
 
 
 
-DiskMesh::DiskMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ParameterSet* a_set)
+DiskMesh::DiskMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ParameterSet* a_set, int a_mode)
 {
+	mode = a_mode;
 	set = a_set;
 	initBuffers(device);
 }
@@ -25,16 +26,42 @@ void DiskMesh::initBuffers(ID3D11Device* device)
 	vertexCount = 363 * 2;
 
 	//360 * 3 vertexes, plus 360 * 6 for sides
-	indexCount = 361 * 3 * 2 + 360 * 6;
+	indexCount = (361 * 3 * 2 + 360 * 6) * 2;
 
 	// Create the vertex and index array.
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	float radius = (set->getPRadius());
+	
+	float radius;
+
+	if (mode == 1)
+	{
+		radius = (set->getPRadius());
+	}
+	else if (mode == 0)
+	{
+		radius = set->getCRadius();
+	}
+	else
+	{
+		radius = set->getHRadius();
+	}
 
 	generateCircle(XMFLOAT3(0, 0, 0), radius);
-	generateCircle(XMFLOAT3(0, 0, (radius / 6)), radius, true);
+
+	if (mode == 1)
+	{
+		generateCircle(XMFLOAT3(0, 0, (radius / 6)), radius, true);
+	}
+	else if (mode == 0)
+	{
+		generateCircle(XMFLOAT3(0, 0, set->getCHeight() / DEBUG_SCALE_FACTOR), radius, true);
+	}
+	else
+	{
+		generateCircle(XMFLOAT3(0, 0, set->getBLength() / DEBUG_SCALE_FACTOR), radius, true);
+	}
 	
 	generateSides(1);
 	
@@ -81,14 +108,34 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 	int vCounterStart = vCounter;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+	
+	vertices[vCounter].texture = XMFLOAT2(0.5f, 0.5f);
 
 	vCounter++;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 1.0f);
 
 	vCounter++;
 
@@ -107,8 +154,17 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		if (invert)
+		{
+
+			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+		}
+		else
+		{
+			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+		}
+		vertices[vCounter].texture = XMFLOAT2(sin(theta), cos(theta));
 
 		if (i == (loops - 1))
 		{
@@ -116,13 +172,14 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 			{
 				indices[iCounter] = vCounterStart;
 				iCounter++;
-				indices[iCounter] = vCounterStart - 1;
+				indices[iCounter] = vCounter - 1;
 				iCounter++;
-				indices[iCounter] = vCounter = 1;
+				indices[iCounter] = vCounterStart + 1;
 				iCounter++;
 			}
 			else
 			{
+
 				indices[iCounter] = vCounterStart;
 				iCounter++;
 				indices[iCounter] = vCounterStart + 1;
@@ -130,6 +187,7 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 				indices[iCounter] = vCounter - 1;
 				iCounter++;
 			}
+			
 		}
 
 		else
@@ -145,6 +203,7 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 			}
 			else
 			{
+
 				indices[iCounter] = vCounterStart;
 				iCounter++;
 				indices[iCounter] = vCounter;
@@ -152,6 +211,7 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 				indices[iCounter] = vCounter - 1;
 				iCounter++;
 			}
+			
 		}
 
 		vCounter++;

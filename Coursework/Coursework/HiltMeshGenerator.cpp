@@ -202,13 +202,29 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius, bool inver
 	int vCounterStart = vCounter;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+
+	if (invert)
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 
 	vCounter++;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	if (invert)
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 
 	vCounter++;
@@ -228,7 +244,7 @@ void HiltMeshGenerator::generateCircle(XMFLOAT3 centre, float radius, bool inver
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
 		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 
 		if (i == (loops - 1))
@@ -314,7 +330,7 @@ void HiltMeshGenerator::generateInvisCircle(XMFLOAT3 centre, float radius)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
 		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	
 		vCounter++;
@@ -368,7 +384,14 @@ void HiltMeshGenerator::generateSquare(XMFLOAT3 centre, float radius, bool inver
 		}
 
 		vertices[vCounter].position = XMFLOAT3((radius / DEBUG_SCALE_FACTOR) * sin((std::_Pi / 180) * (theta)) + centre.x, (radius / DEBUG_SCALE_FACTOR) * cos((std::_Pi / 180) * (theta)) + centre.y, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		if (invert)
+		{
+			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+		else
+		{
+			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+		}
 		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 		vCounter++;
 	}
@@ -449,13 +472,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Top Right
 	vertices[vCounter].position = vertices[start].position;
 	vertices[vCounter].position.y -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 4].position;
 	vertices[vCounter].position.y -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -476,13 +499,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Bottom Right
 	vertices[vCounter].position = vertices[start + 1].position;
 	vertices[vCounter].position.y += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 5].position;
 	vertices[vCounter].position.y += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -503,13 +526,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Top Left
 	vertices[vCounter].position = vertices[start + 3].position;
 	vertices[vCounter].position.y -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 7].position;
 	vertices[vCounter].position.y -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -530,13 +553,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Bottom Left
 	vertices[vCounter].position = vertices[start + 2].position;
 	vertices[vCounter].position.y += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 6].position;
 	vertices[vCounter].position.y += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -557,13 +580,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Left Close
 	vertices[vCounter].position = vertices[start + 8].position;
 	vertices[vCounter].position.z += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 10].position;
 	vertices[vCounter].position.z += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -611,13 +634,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Right Close
 	vertices[vCounter].position = vertices[start + 12].position;
 	vertices[vCounter].position.z += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 14].position;
 	vertices[vCounter].position.z += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -638,13 +661,13 @@ void HiltMeshGenerator::generateRecessSides(int start, float radius)
 	//Right Far
 	vertices[vCounter].position = vertices[start + 13].position;
 	vertices[vCounter].position.z -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 15].position;
 	vertices[vCounter].position.z -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -668,25 +691,25 @@ void HiltMeshGenerator::generateWallThings(int start, float indent)
 	//Verticies
 	vertices[vCounter].position = vertices[start].position;
 	vertices[vCounter].position.x -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 1].position;
 	vertices[vCounter].position.x -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 2].position;
 	vertices[vCounter].position.x -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 3].position;
 	vertices[vCounter].position.x -= indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
@@ -698,19 +721,19 @@ void HiltMeshGenerator::generateWallThings(int start, float indent)
 
 	vertices[vCounter].position = vertices[start + 5].position;
 	vertices[vCounter].position.x += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 6].position;
 	vertices[vCounter].position.x += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 
 	vertices[vCounter].position = vertices[start + 7].position;
 	vertices[vCounter].position.x += indent;
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
 	vCounter++;
 

@@ -4,6 +4,7 @@
 #include "SphereMesh.h"
 #include "DiskMesh.h"
 #include "GemMesh.h"
+#include "ClawMesh.h"
 
 class PommelMeshGenerator
 {

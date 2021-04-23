@@ -101,14 +101,34 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 	int vCounterStart = vCounter;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+
+	vertices[vCounter].texture = XMFLOAT2(0.5f, 0.5f);
 
 	vCounter++;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 1.0f);
 
 	vCounter++;
 
@@ -127,8 +147,8 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
+		vertices[vCounter].texture = XMFLOAT2(sin(theta), cos(theta));
 
 		if (i == (loops - 1))
 		{
@@ -136,13 +156,14 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 			{
 				indices[iCounter] = vCounterStart;
 				iCounter++;
-				indices[iCounter] = vCounterStart - 1;
+				indices[iCounter] = vCounter - 1;
 				iCounter++;
-				indices[iCounter] = vCounter = 1;
+				indices[iCounter] = vCounterStart + 1;
 				iCounter++;
 			}
 			else
 			{
+
 				indices[iCounter] = vCounterStart;
 				iCounter++;
 				indices[iCounter] = vCounterStart + 1;
@@ -150,6 +171,7 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 				indices[iCounter] = vCounter - 1;
 				iCounter++;
 			}
+
 		}
 
 		else
@@ -165,6 +187,7 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 			}
 			else
 			{
+
 				indices[iCounter] = vCounterStart;
 				iCounter++;
 				indices[iCounter] = vCounter;
@@ -172,6 +195,7 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 				indices[iCounter] = vCounter - 1;
 				iCounter++;
 			}
+
 		}
 
 		vCounter++;
@@ -182,19 +206,39 @@ void HiltCapMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 	}
 }
 
-void HiltCapMesh::generateInvisCircle(XMFLOAT3 centre, float radius)
+void HiltCapMesh::generateInvisCircle(XMFLOAT3 centre, float radius, bool invert)
 {
 	int vCounterStart = vCounter;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+
+	vertices[vCounter].texture = XMFLOAT2(0.5f, 0.5f);
 
 	vCounter++;
 
 	vertices[vCounter].position = XMFLOAT3(centre.x, radius / DEBUG_SCALE_FACTOR + centre.y, centre.z);
-	vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-	vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+	if (invert)
+	{
+
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+	}
+	else
+	{
+		vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	}
+	vertices[vCounter].texture = XMFLOAT2(0.0f, 1.0f);
 
 	vCounter++;
 
@@ -213,8 +257,8 @@ void HiltCapMesh::generateInvisCircle(XMFLOAT3 centre, float radius)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
+		vertices[vCounter].texture = XMFLOAT2(sin(theta), cos(theta));
 
 		vCounter++;
 

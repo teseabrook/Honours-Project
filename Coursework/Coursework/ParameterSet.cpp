@@ -1,9 +1,14 @@
 #include "ParameterSet.h"
 
+/*
+ * This file isnt very complex
+ * I'll comment the first type of function but most all work the same
+ */
 
 
 ParameterSet::ParameterSet()
 {
+	//Create a param set on function creation
 	regenerateAll();
 }
 
@@ -12,6 +17,7 @@ ParameterSet::~ParameterSet()
 {
 }
 
+//If it's not locked, generate the weapon type
 void ParameterSet::regenerateWType()
 {
 	if (!lockedParameters[0])
@@ -60,6 +66,7 @@ void ParameterSet::regenerateBWidth()
 	}
 }
 
+//As rand cannot generate floats nativley, make a big number and then divide it
 void ParameterSet::regenerateBCurve()
 {
 	if (!lockedParameters[5])
@@ -400,6 +407,7 @@ void ParameterSet::regenerateCLevel()
 	}
 }
 
+//Call all the regenerate functions
 void ParameterSet::regenerateAll()
 {
 
@@ -447,10 +455,12 @@ void ParameterSet::regenerateAll()
 	regenerateDamage();
 }
 
+//Regenerate a specified number of params
 void ParameterSet::regenerateAmount(int a)
 {
 
-	//Regenerates a Random parameters
+	//Regenerates a Random parameter
+	//Im not actually sure why I used a do-while instead of for but w/e
 	do
 	{
 		int identifier = rand() % 43;
@@ -645,6 +655,7 @@ bool ParameterSet::getLockState(int param)
 	}
 }
 
+//Set the parameter to the specified value (assuming it's valid) and then lock it
 void ParameterSet::setWType(int arg, bool lock)
 {
 	if (arg >= 0 && arg <= 2)

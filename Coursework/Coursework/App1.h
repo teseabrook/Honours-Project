@@ -14,6 +14,9 @@
 #include <Light.h>
 #include "LightShader.h"
 #include "PommelMeshGenerator.h"
+#include "CrossguardMeshGenerator.h"
+#include "SwordBladeMesh.h"
+#include "SpeartipMeshGenerator.h"
 
 
 class App1 : public BaseApplication
@@ -42,6 +45,9 @@ private:
 	Light* light;
 	LightShader* shader;
 	PommelMeshGenerator* pommel;
+	CrossguardMeshGenerator* crossguard;
+	SpeartipMeshGenerator* spear;
+	SwordBladeMesh* sword;
 
 
 	float elapsedTime = 0.0f;

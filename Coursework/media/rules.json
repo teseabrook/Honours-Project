@@ -1,19 +1,46 @@
 {
 	"rules" : [
+
 	{
-    		"parameter1" : "bLength",
-        	"parameter2" : "bBreadth",
-        	"operator" : ">"
+		"parameter1" : "wType",
+		"value" : 1.0,
+		"operator" : "!="
 	},
 	{
-		"parameter1" : "pStyle",
-		"value" : 5.0,
+		"parameter1" : "nBlades",
+		"value" : 1.0,
 		"operator" : "="
+	},
+	{
+		"parameter1" : "hRadius",
+		"value" : 175.0,
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "hTRadius",
+		"value" : 150.0,
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "hLength",
+		"value" : 600.0,
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "hCLength",
+		"value" : 100.0,
+		"operator" : ">"
 	},
 	{
 		"parameter1" : "hWStyle",
 		"value" : 2.0,
-		"operator" : "="
+		"operator" : "c="
+	},
+	{
+		"parameter1" : "hStyle",
+		"value" : 1.0,
+		"operator" : "=c"
 	}
+
     ]
 }

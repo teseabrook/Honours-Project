@@ -46,29 +46,58 @@ void HighPolyDeformMesh::initBuffers(ID3D11Device* device)
 			vertices[vCounter].position = start;
 			vertices[vCounter].position.y -= (size.x / resolution) * (i);
 			vertices[vCounter].position.z += (size.y / resolution) * (j);
-			vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-			vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+
+			if (inverted)
+			{
+				vertices[vCounter].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				vertices[vCounter].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+			}
+			vertices[vCounter].texture = XMFLOAT2(i / resolution, j / resolution);
 			vCounter++;
 
 			vertices[vCounter].position = start;
 			vertices[vCounter].position.y -= (size.x / resolution) * (i + 1);
 			vertices[vCounter].position.z += (size.y / resolution) * (j);
-			vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-			vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+			if (inverted)
+			{
+				vertices[vCounter].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				vertices[vCounter].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+			}
+			vertices[vCounter].texture = XMFLOAT2(i + 1 / resolution, j / resolution);
 			vCounter++;
 
 			vertices[vCounter].position = start;
 			vertices[vCounter].position.y -= (size.x / resolution) * (i);
 			vertices[vCounter].position.z += (size.y / resolution) * (j + 1);
-			vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-			vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+			if (inverted)
+			{
+				vertices[vCounter].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				vertices[vCounter].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+			}
+			vertices[vCounter].texture = XMFLOAT2(i / resolution, j + 1/ resolution);
 			vCounter++;
 
 			vertices[vCounter].position = start;
 			vertices[vCounter].position.y -= (size.x / resolution) * (i + 1);
 			vertices[vCounter].position.z += (size.y / resolution) * (j + 1);
-			vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-			vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+			if (inverted)
+			{
+				vertices[vCounter].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				vertices[vCounter].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+			}
+			vertices[vCounter].texture = XMFLOAT2(i + 1 / resolution, j + 1 / resolution);
 			vCounter++;
 
 			if (inverted)

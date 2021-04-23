@@ -165,9 +165,13 @@
   <ItemGroup>
     <ClCompile Include="AICore.cpp" />
     <ClCompile Include="App1.cpp" />
+    <ClCompile Include="BarMesh.cpp" />
+    <ClCompile Include="ClawMesh.cpp" />
+    <ClCompile Include="CrossguardMeshGenerator.cpp" />
     <ClCompile Include="DebugEventSystem.cpp" />
     <ClCompile Include="DiskMesh.cpp" />
     <ClCompile Include="DnDProfile.cpp" />
+    <ClCompile Include="EmbossedDiskMesh.cpp" />
     <ClCompile Include="GemMesh.cpp" />
     <ClCompile Include="HighPolyDeformMesh.cpp" />
     <ClCompile Include="HiltCapMesh.cpp" />
@@ -177,13 +181,20 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ParameterSet.cpp" />
     <ClCompile Include="PommelMeshGenerator.cpp" />
+    <ClCompile Include="SpearBaseMesh.cpp" />
+    <ClCompile Include="SpeartipMeshGenerator.cpp" />
+    <ClCompile Include="SwordBladeMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AICore.h" />
     <ClInclude Include="App1.h" />
+    <ClInclude Include="BarMesh.h" />
+    <ClInclude Include="ClawMesh.h" />
+    <ClInclude Include="CrossguardMeshGenerator.h" />
     <ClInclude Include="DebugEventSystem.h" />
     <ClInclude Include="DiskMesh.h" />
     <ClInclude Include="DnDProfile.h" />
+    <ClInclude Include="EmbossedDiskMesh.h" />
     <ClInclude Include="GemMesh.h" />
     <ClInclude Include="HighPolyDeformMesh.h" />
     <ClInclude Include="HiltCapMesh.h" />
@@ -192,6 +203,9 @@
     <ClInclude Include="LightShader.h" />
     <ClInclude Include="ParameterSet.h" />
     <ClInclude Include="PommelMeshGenerator.h" />
+    <ClInclude Include="SpearBaseMesh.h" />
+    <ClInclude Include="SpeartipMeshGenerator.h" />
+    <ClInclude Include="SwordBladeMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DXFramework\DXFramework.vcxproj">

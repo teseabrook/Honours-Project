@@ -29,10 +29,10 @@ void HiltWrapMesh::initBuffers(ID3D11Device* device)
 	{
 		float numLoops = ceil((set->getHLength() / DEBUG_SCALE_FACTOR) / 25.0f);
 
-		vertexCount = 360 * 4 + 360 * (1 + numLoops);
+		vertexCount = 360 * 10 + 360 * (1 + numLoops);
 
 
-		indexCount = 360 * 6 * (3 + numLoops);
+		indexCount = 360 * 20 * (3 + numLoops);
 		vertices = new VertexType[vertexCount];
 		indices = new unsigned long[indexCount];
 
@@ -49,10 +49,10 @@ void HiltWrapMesh::initBuffers(ID3D11Device* device)
 	{
 		float numLoops = ceil((set->getHLength() / DEBUG_SCALE_FACTOR) / 25.0f);
 
-		vertexCount = 360 * 2 + 360 * 4 * (1 + 6 * numLoops);
+		vertexCount = 360 * 10 + 360 * 4 * (1 + 6 * numLoops);
 
 
-		indexCount = 360 * 10 * (3 + numLoops);
+		indexCount = 360 * 20 * (3 + numLoops);
 		vertices = new VertexType[vertexCount];
 		indices = new unsigned long[indexCount];
 
@@ -124,8 +124,8 @@ void HiltWrapMesh::createCirclePoints(XMFLOAT3 centre, float radius, int offset)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
+		vertices[vCounter].texture = XMFLOAT2(theta / (2 * std::_Pi), 0.0f);
 
 		vCounter++;
 
@@ -169,8 +169,8 @@ void HiltWrapMesh::generateSpiralPoints(XMFLOAT3 centre, float radius, int offse
 		}
 
 		vertices[vCounter].position = XMFLOAT3(newX, newY, newZ);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
+		vertices[vCounter].texture = XMFLOAT2((theta / (2 * std::_Pi)), newZ / maxHeight);
 
 
 		vCounter++;
@@ -214,8 +214,8 @@ void HiltWrapMesh::generateBackwardSpiralPoints(XMFLOAT3 centre, float radius, i
 		}
 
 		vertices[vCounter].position = XMFLOAT3(newX, newY, newZ);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
-		vertices[vCounter].texture = XMFLOAT2(0.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
+		vertices[vCounter].texture = XMFLOAT2((theta / (2 * std::_Pi)), newZ / maxHeight);
 
 
 		vCounter++;

@@ -2,6 +2,11 @@
 #include "BaseMesh.h"
 #include "ParameterSet.h"
 
+/*
+ * HiltCapMesh
+ * Creates a mesh for the hilt caps
+ */
+
 class HiltCapMesh : public BaseMesh
 {
 public:
@@ -12,7 +17,7 @@ public:
 
 protected:
 	void generateCircle(XMFLOAT3 centre, float radius, bool invert = false);
-	void generateInvisCircle(XMFLOAT3 centre, float radius);
+	void generateInvisCircle(XMFLOAT3 centre, float radius, bool invert = false);
 	void generateSides(int circle1Start);
 
 	int vCounter, iCounter, noVPoints;

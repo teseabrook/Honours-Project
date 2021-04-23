@@ -1,6 +1,12 @@
 #pragma once
 #include "e:\Coursework 2020-2021\Honours-Project\Coursework\DXFramework\BaseMesh.h"
 #include "ParameterSet.h"
+
+/*
+ * HighPolyDeformMesh
+ * Creates a flat mesh with lots of verticies for deforming
+ */
+
 class HighPolyDeformMesh :
 	public BaseMesh
 {
