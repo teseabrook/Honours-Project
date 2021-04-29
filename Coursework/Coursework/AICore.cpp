@@ -19,6 +19,7 @@ AICore::~AICore()
 //Generate a set of parameters that fulfills all rules and has been ran through the algorithm
 ParameterSet* AICore::generateParameterSet()
 {
+	combinationsTried = 0;
 	//Generate the first set
 	generateInitialGeneration();
 	
@@ -56,6 +57,8 @@ ParameterSet* AICore::generateParameterSet()
 		{
 			generateInitialGeneration();
 		}
+
+		combinationsTried++;
 	} while (n < numGenerations);
 
 

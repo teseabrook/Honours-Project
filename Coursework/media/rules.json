@@ -79,11 +79,6 @@
 		"operator" : "!="
 	},
 	{
-		"parameter1" : "wType",
-		"value" : 0.0,
-		"operator" : "="
-	},
-	{
 		"parameter1" : "cRadius",
 		"parameter2" : "hRadius",
 		"operator" : ">"

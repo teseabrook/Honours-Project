@@ -49,12 +49,16 @@ private:
 	SpeartipMeshGenerator* spear;
 	SwordBladeMesh* sword;
 
+	void generateSet();
 
 	float elapsedTime = 0.0f;
 	float deltaTime = 0.0f;
 	int eventDisplayTime = 1;
 
-	//Timer timer;
+	bool hasGenerated = false;
+
+	Timer genTimer;
+	float genTime;
 
 };
 

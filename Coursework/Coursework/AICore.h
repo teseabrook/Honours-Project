@@ -45,6 +45,8 @@ public:
 	//Regenerate the parameter set. Called automatically on class creation
 	ParameterSet* generateParameterSet();
 
+	int getCombinationsTried() { return combinationsTried; };
+
 protected:
 	//Data Structures
 	std::vector<ParameterSet> P;
@@ -69,6 +71,8 @@ protected:
 	bool getRulesFromFile(rapidjson::Document & doc);
 	bool getCriteriaFromFile(rapidjson::Document & doc);
 	float getRuleValueAsFloat(std::string value, ParameterSet input);
+
+	int combinationsTried = 0;
 
 };
 

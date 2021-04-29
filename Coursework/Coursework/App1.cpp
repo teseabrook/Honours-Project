@@ -41,10 +41,35 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture(L"amethyst", L"res/amethyst.png");
 
 
+	shader = new LightShader(renderer->getDevice(), hwnd);
+	genTimer.frame();
+	generateSet();
+	genTimer.frame();
+	genTime = genTimer.getTime();
+
+	light = new Light;
+	light->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
+	light->setDiffuseColour(0.75f, 0.75f, 0.75f, 1.0f);
+	light->setDirection(1.0f, -0.0f, 0.0f);
+
+	camera->setPosition(camera->getPosition().x, camera->getPosition().y + 25, camera->getPosition().z - 170);
+
+}
+
+
+App1::~App1()
+{
+	// Run base application deconstructor
+	BaseApplication::~BaseApplication();
+
+	// Release the Direct3D object.
+
+}
+
+void App1::generateSet()
+{
 	set = aiCore->generateParameterSet();
 	profile = new DnDProfile(set);
-
-	shader = new LightShader(renderer->getDevice(), hwnd);
 
 	hiltMesh = new HiltMeshGenerator(renderer->getDevice(), renderer->getDeviceContext(), set);
 	hiltMesh->addTexture(textureMgr->getTexture(L"wood"));
@@ -62,25 +87,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	{
 		spear = new SpeartipMeshGenerator(renderer->getDevice(), renderer->getDeviceContext(), set);
 	}
-
-
-	light = new Light;
-	light->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
-	light->setDiffuseColour(0.75f, 0.75f, 0.75f, 1.0f);
-	light->setDirection(1.0f, -0.0f, 0.0f);
-
-	camera->setPosition(camera->getPosition().x, camera->getPosition().y, camera->getPosition().z - 150);
-
-}
-
-
-App1::~App1()
-{
-	// Run base application deconstructor
-	BaseApplication::~BaseApplication();
-
-	// Release the Direct3D object.
-
 }
 
 bool App1::frame()
@@ -222,8 +228,25 @@ bool App1::render()
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
 		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius * 0.9)));
 
+		ID3D11ShaderResourceView* tex;
+		switch (set->getMaterial())
+		{
+		case 0:
+			tex = textureMgr->getTexture(L"wood");
+			break;
+		case 1:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		case 2:
+			tex = textureMgr->getTexture(L"stone");
+			break;
+		default:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		}
+
 		pommel ->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 	}
 	else if (set->getPStyle() == 2 || set->getPStyle() == 5)
@@ -368,7 +391,7 @@ bool App1::render()
 			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + ((set->getCHeight() / DEBUG_SCALE_FACTOR)));
 
 			sword->sendData(renderer->getDeviceContext());
-			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"metal"), light);
 			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
 		}
 		else if (set->getCShape() == 0)
@@ -383,7 +406,7 @@ bool App1::render()
 			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + ((set->getCHeight() / DEBUG_SCALE_FACTOR)));
 
 			sword->sendData(renderer->getDeviceContext());
-			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"metal"), light);
 			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
 		}
 		else
@@ -391,7 +414,7 @@ bool App1::render()
 			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR));
 
 			sword->sendData(renderer->getDeviceContext());
-			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"metal"), light);
 			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
 		}
 		
@@ -429,7 +452,21 @@ void App1::gui()
 
 	// Build UI
 	ImGui::Text("FPS: %.2f", timer->getFPS());
+	ImGui::Text("Generation Time: %.2f seconds", genTime);
+
+
+	std::string a = "Combinations Tried: ";
+	a += to_string(aiCore->getCombinationsTried());
+	ImGui::Text(a.c_str());
 	ImGui::Checkbox("Wireframe mode", &wireframeToggle);
+
+	if (ImGui::Button("Regenerate"))
+	{
+		genTimer.frame();
+		generateSet();
+		genTimer.frame();
+		genTime = genTimer.getTime();
+	}
 
 
 	//Construct the event string
@@ -441,7 +478,7 @@ void App1::gui()
 	st += lastEvent.eventMessage;
 	eventString = st.c_str();
 
-	ImGui::Text(eventString);
+	//ImGui::Text(eventString);
 
 	eventString = "";
 	st = "Name: ";
