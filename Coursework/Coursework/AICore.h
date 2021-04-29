@@ -35,6 +35,7 @@ public:
 		std::string param1;
 		std::string param2;
 		float multiplier;
+		float value;
 		std::string ruleType;
 	};
 

@@ -33,6 +33,12 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture(L"grass", L"res/grass.png");
 	textureMgr->loadTexture(L"height", L"res/height.png");
 	textureMgr->loadTexture(L"leather", L"res/leather.png");
+	textureMgr->loadTexture(L"diamond", L"res/diamond.png");
+	textureMgr->loadTexture(L"ruby", L"res/ruby.png");
+	textureMgr->loadTexture(L"sapphire", L"res/sapphire.png");
+	textureMgr->loadTexture(L"emerald", L"res/emerald.png");
+	textureMgr->loadTexture(L"quartz", L"res/quartz.png");
+	textureMgr->loadTexture(L"amethyst", L"res/amethyst.png");
 
 
 	set = aiCore->generateParameterSet();
@@ -214,102 +220,194 @@ bool App1::render()
 	if (set->getPStyle() == 1)
 	{
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius / 2)));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius * 0.9)));
 
 		pommel ->getMesh()->sendData(renderer->getDeviceContext());
 		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 	}
-	else if (set->getPStyle() == 2)
+	else if (set->getPStyle() == 2 || set->getPStyle() == 5)
 	{
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
-		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius / 2));
+		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f - (radius * 0.5));
+
+		ID3D11ShaderResourceView* tex;
+		switch (set->getMaterial())
+		{
+		case 0:
+			tex = textureMgr->getTexture(L"wood");
+			break;
+		case 1:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		case 2:
+			tex = textureMgr->getTexture(L"stone");
+			break;
+		default:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		}
 
 		pommel->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 	}
-	else if (set->getPStyle() == 3 || set->getPStyle() == 5)
+	else if (set->getPStyle() == 3 || set->getPStyle() == 4)
 	{
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, (set->getHRadius() / DEBUG_SCALE_FACTOR) - (radius), -140.0f));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(1.0f, 1.0f, 1.0f), XMMatrixTranslation(0.0f, (set->getHRadius() / DEBUG_SCALE_FACTOR) - (radius / 2.5), -140.0f));
+
+		ID3D11ShaderResourceView* tex;
+		switch (set->getMaterial())
+		{
+			case 0:
+				tex = textureMgr->getTexture(L"wood");
+				break;
+			case 1:
+				tex = textureMgr->getTexture(L"metal");
+				break;
+			case 2:
+				tex = textureMgr->getTexture(L"stone");
+				break;
+			default:
+				tex = textureMgr->getTexture(L"metal");
+				break;
+		}
 
 		pommel->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, -(set->getHRadius() / DEBUG_SCALE_FACTOR) + (radius), -140.0f));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(1.0f, 1.0f, 1.0f), XMMatrixTranslation(0.0f, -(set->getHRadius() / DEBUG_SCALE_FACTOR) + (radius / 2.5), -140.0f));
 		worldMatrix = XMMatrixMultiply(XMMatrixRotationZ(AI_DEG_TO_RAD(180)), worldMatrix);
 
 		pommel->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(-(set->getHRadius() / DEBUG_SCALE_FACTOR) + (radius), 0.0f, -140.0f));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(1.0f, 1.0f, 1.0f), XMMatrixTranslation(-(set->getHRadius() / DEBUG_SCALE_FACTOR) + (radius / 2.5), 0.0f, -140.0f));
 		worldMatrix = XMMatrixMultiply(XMMatrixRotationZ(AI_DEG_TO_RAD(90)), worldMatrix);
 
 		pommel->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation((set->getHRadius() / DEBUG_SCALE_FACTOR) - (radius), 0.0f, -140.0f));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(1.0f, 1.0f, 1.0f), XMMatrixTranslation((set->getHRadius() / DEBUG_SCALE_FACTOR) - (radius / 2.5), 0.0f, -140.0f));
 		worldMatrix = XMMatrixMultiply(XMMatrixRotationZ(AI_DEG_TO_RAD(270)), worldMatrix);
 
 		pommel->getMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getMesh()->getIndexCount());
 
 
 	}
-	if (set->getPStyle() == 5)
+	if (set->getPStyle() == 4 || set->getPStyle() == 5)
 	{
+		ID3D11ShaderResourceView* tex;
+		switch (set->getGColour())
+		{
+		case 0:
+			tex = textureMgr->getTexture(L"diamond");
+			break;
+		case 1:
+			tex = textureMgr->getTexture(L"ruby");
+			break;
+		case 2:
+			tex = textureMgr->getTexture(L"sapphire");
+			break;
+		case 3:
+			tex = textureMgr->getTexture(L"emerald");
+			break;
+		case 4:
+			tex = textureMgr->getTexture(L"quartz");
+			break;
+		case 5:
+			tex = textureMgr->getTexture(L"amethyst");
+			break;
+		default:
+			tex = textureMgr->getTexture(L"diamond");
+			break;
+		}
+
 		float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
-		worldMatrix = XMMatrixMultiply(XMMatrixScaling((set->getHRadius() / DEBUG_SCALE_FACTOR) / 3, (set->getHRadius() / DEBUG_SCALE_FACTOR) / 3, (set->getHRadius() / DEBUG_SCALE_FACTOR) / 3), XMMatrixTranslation(0.0f, 0.0f, -140.0f));
+		worldMatrix = XMMatrixMultiply(XMMatrixScaling(radius, radius, radius), XMMatrixTranslation(0.0f, 0.0f, -140.0f));
 
 		pommel->getGemMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"bunny"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 		shader->render(renderer->getDeviceContext(), pommel->getGemMesh()->getIndexCount());
 	}
 
 	if (set->getWType() == 0)
 	{
+		ID3D11ShaderResourceView* tex;
+		switch (set->getMaterial())
+		{
+		case 0:
+			tex = textureMgr->getTexture(L"wood");
+			break;
+		case 1:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		case 2:
+			tex = textureMgr->getTexture(L"stone");
+			break;
+		default:
+			tex = textureMgr->getTexture(L"metal");
+			break;
+		}
+
 		if (set->getCShape() == 2)
 		{
 			float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
 			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR));
 
 			crossguard->getMesh()->sendData(renderer->getDeviceContext());
-			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 			shader->render(renderer->getDeviceContext(), crossguard->getMesh()->getIndexCount());
+
+			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + ((set->getCHeight() / DEBUG_SCALE_FACTOR)));
+
+			sword->sendData(renderer->getDeviceContext());
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
 		}
 		else if (set->getCShape() == 0)
 		{
 			float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
-			worldMatrix = XMMatrixMultiply(XMMatrixScaling(set->getCRadius() / DEBUG_SCALE_FACTOR, 2 * (set->getCRadius() / DEBUG_SCALE_FACTOR), set->getCHeight() / DEBUG_SCALE_FACTOR), XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)));
+			worldMatrix = XMMatrixMultiply(XMMatrixScaling(set->getCRadius() / DEBUG_SCALE_FACTOR, 2 * (set->getCRadius() / DEBUG_SCALE_FACTOR), set->getCHeight() / DEBUG_SCALE_FACTOR), XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + (set->getCHeight() / DEBUG_SCALE_FACTOR)));
 
 			crossguard->getMesh()->sendData(renderer->getDeviceContext());
-			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"grass"), light);
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, tex, light);
 			shader->render(renderer->getDeviceContext(), crossguard->getMesh()->getIndexCount());
+
+			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + ((set->getCHeight() / DEBUG_SCALE_FACTOR)));
+
+			sword->sendData(renderer->getDeviceContext());
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
 		}
+		else
+		{
+			worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR));
 
-		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + (set->getCHeight() / DEBUG_SCALE_FACTOR));
-
-		sword->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
-		shader->render(renderer->getDeviceContext(), sword->getIndexCount());
+			sword->sendData(renderer->getDeviceContext());
+			shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+			shader->render(renderer->getDeviceContext(), sword->getIndexCount());
+		}
+		
 	}
 	else if (set->getWType() == 2)
 	{
 		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR));
 
 		spear->getCollarMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"wood"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"metal"), light);
 		shader->render(renderer->getDeviceContext(), spear->getCollarMesh()->getIndexCount());
 
-		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + (set->getBLength() / DEBUG_SCALE_FACTOR));
+		worldMatrix = XMMatrixTranslation(0.0f, 0.0f, -145.0f + (set->getHLength() / DEBUG_SCALE_FACTOR) + (set->getBLength() / DEBUG_SCALE_FACTOR));
 
 		spear->getSpearBaseMesh()->sendData(renderer->getDeviceContext());
-		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"height"), light);
+		shader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, textureMgr->getTexture(L"metal"), light);
 		shader->render(renderer->getDeviceContext(), spear->getSpearBaseMesh()->getIndexCount());
 	}
 

@@ -23,10 +23,9 @@ void CrossguardMeshGenerator::generateCrossguard()
 	{
 	case 0:
 		//Simple Bar
-		if (set->getCBAngle() == 0)
-		{
+		
 			pommelMesh = new BarMesh(device, deviceContext);
-		}
+		
 		break;
 
 	case 1:

@@ -4,6 +4,104 @@
 		"parameter1" : "hRadius",
 		"parameter2" : "hTRadius",
 		"ctype" : "invdiff"
+	},
+	{
+		"parameter1" : "pRadius",
+		"multiplier" : 0.05,
+		"ctype" : "absMult"
+	},
+	{
+		"parameter1" : "hRadius",
+		"parameter2" : "cRadius",
+		"multiplier" : 0.9,
+		"ctype" : "invdiff1"
+	},
+	{
+		"parameter1" : "cHeight",
+		"multiplier" : 0.1,
+		"ctype" : "IabsMult"
+	},
+	{
+		"parameter1" : "hStyle",
+		"multiplier" : 1.0,
+		"ctype" : "pair1",
+		"value" : 10.0
+	},
+	{
+		"parameter1" : "cStyle",
+		"multiplier" : 0.0,
+		"ctype" : "pair2",
+		"value" : 10.0
+	},
+	{
+		"parameter1" : "bWidth",
+		"parameter2" : "stWidth",
+		"ctype" : "invdiff"
+	},
+	{
+		"parameter1" : "hRadius",
+		"parameter2" : "stWidth",
+		"ctype" : "invdiff"
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 0.0,
+		"ctype" : "cinvdiff1"
+	},
+	{
+		"parameter1" : "hLength",
+		"parameter2" : "bLength",
+		"ctype" : "invdiff1c",
+		"multiplier" : 1.5
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 0.0,
+		"ctype" : "cabsmult"
+	},
+	{
+		"parameter1" : "bLength",
+		"multiplier" : 0.1,
+		"ctype" : "absMultc"
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 2.0,
+		"ctype" : "cinvdiff1"
+	},
+	{
+		"parameter1" : "hLength",
+		"parameter2" : "bLength",
+		"ctype" : "invdiff1c",
+		"multiplier" : 0.5
+	},
+	{
+		"parameter1" : "hRadius",
+		"parameter2" : "bWidth",
+		"ctype" : "invdiff1",
+		"multiplier" : 0.5
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 0.0,
+		"ctype" : "clessthan"
+	},
+	{
+		"parameter1" : "hLength",
+		"value" : 3000,
+		"ctype" : "lessthanc",
+		"multiplier" : 10
+	},
+	{
+		"parameter1" : "bWidth",
+		"parameter2" : "bBreadth",
+		"ctype" : "invdiff1c",
+		"multiplier" : 0.5
+	},
+	{
+		"parameter1" : "pLength",
+		"multiplier" : 0.05,
+		"ctype" : "absMult"
 	}
     ]
 }

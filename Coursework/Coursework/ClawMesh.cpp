@@ -30,18 +30,20 @@ void ClawMesh::initBuffers(ID3D11Device* device)
 
 	// Load the vertex array with data.
 
+	float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
+
 	//Generate a bunch of circles of decreasing radius and then connect them to form the claw
-	generateCircle(XMFLOAT3(0.0f, 0.0f, 0.0f), set->getPRadius() / 10);
-	generateCircle(XMFLOAT3(0.0f, 0.0f, -((set->getPRadius() / DEBUG_SCALE_FACTOR) * 0.1f)), set->getHRadius() / 12);
-	generateCircle(XMFLOAT3(0.0f, ((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.025f), -((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.2f)), set->getPRadius() / 14);
-	generateCircle(XMFLOAT3(0.0f, ((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.05f), -((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.3f)), set->getPRadius() / 16);
-	generateCircle(XMFLOAT3(0.0f, ((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.025f), -((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.4f)), set->getPRadius() / 18);
-	generateCircle(XMFLOAT3(0.0f, -((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.1f), -((set->getHRadius() / DEBUG_SCALE_FACTOR) * 0.5f)), set->getPRadius() / 20);
+	generateCircle(XMFLOAT3(0.0f, 0.0f, 0.0f), radius);
+	//generateCircle(XMFLOAT3(0.0f, ((set->getPRadius() / DEBUG_SCALE_FACTOR) / 120), -((set->getPRadius() / DEBUG_SCALE_FACTOR) / 100)), set->getPRadius() / DEBUG_SCALE_FACTOR / 18);
+	//generateCircle(XMFLOAT3(0.0f, ((set->getPRadius() / DEBUG_SCALE_FACTOR) / 100), -((set->getPRadius() / DEBUG_SCALE_FACTOR) / 75)), set->getPRadius() / DEBUG_SCALE_FACTOR / 24);
+	generateCircle(XMFLOAT3(0.0f, (radius * 0.4f), -radius * 0.5), radius / 2);
+	//generateCircle(XMFLOAT3(0.0f, ((set->getPRadius() / DEBUG_SCALE_FACTOR) /100), -((set->getPRadius() / DEBUG_SCALE_FACTOR) / 40)), set->getPRadius() / DEBUG_SCALE_FACTOR / 36);
+	generateCircle(XMFLOAT3(0.0f, 0.0f, -radius * 0.9), radius / 42);
 	generateSides(0);
 	generateSides(363);
-	generateSides(725);
-	generateSides(1087);
-	generateSides(1449);
+	//generateSides(725);
+	//generateSides(1087);
+	//generateSides(1449);
 
 
 	// Set up the description of the static vertex buffer.
@@ -111,7 +113,7 @@ void ClawMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 		float newX = (radius / DEBUG_SCALE_FACTOR) * sin(theta) + centre.x;
 		float newY = (radius / DEBUG_SCALE_FACTOR) * cos(theta) + centre.y;
 		vertices[vCounter].position = XMFLOAT3(newX, newY, centre.z);
-		vertices[vCounter].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
+		vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 0.0f);
 		vertices[vCounter].texture = XMFLOAT2(sin(theta), cos(theta));
 
 		if (i == (loops - 1))
@@ -221,16 +223,18 @@ void ClawMesh::generateSides(int circle1Start)
 	{
 		indices[iCounter] = i + circle1Start;
 		iCounter++;
-		indices[iCounter] = i + circle1Start + 1;
-		iCounter++;
 		indices[iCounter] = i + circle1Start + 362;
 		iCounter++;
+		indices[iCounter] = i + circle1Start + 1;
+		iCounter++;
+		
 
 		indices[iCounter] = i + circle1Start + 1;
 		iCounter++;
-		indices[iCounter] = i + circle1Start + 363;
-		iCounter++;
 		indices[iCounter] = i + circle1Start + 362;
 		iCounter++;
+		indices[iCounter] = i + circle1Start + 363;
+		iCounter++;
+	
 	}
 }

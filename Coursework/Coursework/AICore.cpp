@@ -170,6 +170,15 @@ bool AICore::getCriteriaFromFile(rapidjson::Document & doc)
 			c.param2 = "none";
 		}
 
+		if (critArr[i].HasMember("value"))
+		{
+			c.param2 = critArr[i]["value"].GetFloat();
+		}
+		else
+		{
+			c.param2 = 0.0f;
+		}
+
 		//Save the criteria
 		criteria.push_back(c);
 	}
@@ -285,6 +294,37 @@ bool AICore::evaluateParametersAgainstRules(ParameterSet input)
 				}
 			}
 		}
+
+		//The rule is that p1 * v cannot be greater than p2
+		if (rules[i].op == "m>")
+		{
+			if (getRuleValueAsFloat(rules[i].param1, input) * rules[i].value < getRuleValueAsFloat(rules[i].param2, input))
+			{
+				return false;
+			}
+		}
+
+		//The rule is that if condition 1 is true, condition 2 (in this case x > y) must be true
+		if (rules[i].op == "c>")
+		{
+			if (getRuleValueAsFloat(rules[i].param1, input) == rules[i].value)
+			{
+				if (getRuleValueAsFloat(rules[i + 1].param1, input) < getRuleValueAsFloat(rules[i + 1].param2, input))
+				{
+					return false;
+				}
+			}
+		}
+
+		//The rule is that x * v cannot be greater than y
+		if (rules[i].op == "m<")
+		{
+			if ((getRuleValueAsFloat(rules[i].param1, input)) * rules[i].value > (getRuleValueAsFloat(rules[i].param2, input)))
+			{
+				return false;
+			}
+		}
+
 	}
 
 	//We passed
@@ -301,7 +341,11 @@ int AICore::evaluateParametersAgainstCriteria(ParameterSet input)
 		//Increase the score based on the absolute value of the parameter multiplied by the multiplier
 		if (criteria[i].ruleType == "absMult")
 		{
-			score += (int)(getRuleValueAsFloat(criteria[i].param1, input) * criteria[i].multiplier);
+			score += (getRuleValueAsFloat(criteria[i].param1, input) * criteria[i].multiplier);
+		}
+		else if (criteria[i].ruleType == "IabsMult")
+		{
+			score -= (getRuleValueAsFloat(criteria[i].param1, input) * criteria[i].multiplier);
 		}
 		//The larger the difference between the parameters, the lower the score
 		else if (criteria[i].ruleType == "invdiff")
@@ -317,6 +361,64 @@ int AICore::evaluateParametersAgainstCriteria(ParameterSet input)
 				score -= diff;
 			}
 		}
+		//The larger the difference between the parameters, the lower the score, but param 1 is multiplied by a value
+		else if (criteria[i].ruleType == "invdiff1")
+		{
+			
+			float diff = abs((getRuleValueAsFloat(criteria[i].param1, input) * criteria[i].multiplier) - getRuleValueAsFloat(criteria[i].param2, input));
+			score -= diff;
+			
+		}
+
+		//This is a paired criteria. The score is increased if both match the provided values, or neither do
+		else if (criteria[i].ruleType == "pair1")
+		{
+			if (getRuleValueAsFloat(criteria[i].param1, input) == criteria[i].multiplier)
+			{
+				if (getRuleValueAsFloat(criteria[i + 1].param1, input) == criteria[i + 1].multiplier)
+				{
+					score += criteria[i].value;
+				}
+			}
+			else
+			{
+				if (getRuleValueAsFloat(criteria[i + 1].param1, input) != criteria[i + 1].multiplier)
+				{
+					score += criteria[i].value;
+				}
+			}
+		}
+
+		//The criteria is the same as an inv diff multiplier one, but the first condition must be true
+		else if (criteria[i].ruleType == "cinvdiff1")
+		{
+			if (getRuleValueAsFloat(criteria[i].param1, input) == criteria[i].value)
+			{
+				float diff = abs((getRuleValueAsFloat(criteria[i + 1].param1, input) * criteria[i].multiplier) - getRuleValueAsFloat(criteria[i + 1].param2, input));
+				score -= diff;
+			}
+		}
+
+		//The criteria is the same as an abs multiply one, but the first condition must be true
+		else if (criteria[i].ruleType == "cabsmult")
+		{
+			if (getRuleValueAsFloat(criteria[i].param1, input) == criteria[i].value)
+			{
+				score += (getRuleValueAsFloat(criteria[i + 1].param1, input) * criteria[i + 1].multiplier);
+			}
+		}
+		//If c1 is met, the score is added if c2 is less than the value
+		else if (criteria[i].ruleType == "clessthan")
+		{
+			if (getRuleValueAsFloat(criteria[i].param1, input) == criteria[i].value)
+			{
+				if (getRuleValueAsFloat(criteria[i + 1].param1, input) < criteria[i + 1].value)
+				{
+					score += criteria[i + 1].multiplier;
+				}
+			}
+		}
+
 	}
 
 	return score;
@@ -397,9 +499,35 @@ float AICore::getRuleValueAsFloat(std::string param, ParameterSet input)
 	{
 		return input.getNBlades();
 	}
+	//Pommel Radius
+	else if (param == "pRadius")
+	{
+		return input.getPRadius();
+	}
+	//Crossguard Radius
+	else if (param == "cRadius")
+	{
+		return input.getCRadius();
+	}
+	else if (param == "cHeight")
+	{
+		return input.getCHeight();
+	}
+	else if (param == "sBHeight")
+	{
+		return input.getSBHeigh();
+	}
+	else if (param == "stWidth")
+	{
+		return input.getStWidth();
+	}
+	else if (param == "fWidth")
+	{
+		return input.getFWidth();
+	}
 	else
 	{
-		//Parameter doesn't exist or isn't a float
+		//Parameter doesn't exist or can't be evaluated as a float
 		return -1;
 	}
 }

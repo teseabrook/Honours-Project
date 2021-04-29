@@ -26,24 +26,24 @@ void DnDProfile::setName(ParameterSet* set)
 	{
 		case 0:
 			//Swords
-			//Blade is between 0 and 1000 with 4 categories
+			//Blade is between 0 and 4000 with 4 categories
 			//If handle is long, it's a glaive
 
-			if (set->getHLength() > 1000)
+			if (set->getHLength() > 3000)
 			{
 				n += "Glaive";
 			}
 			else
 			{
-				if (set->getBLength() < 250)
+				if (set->getBLength() < 1000)
 				{
 					n += "Dagger";
 				}
-				else if (set->getBLength() < 500)
+				else if (set->getBLength() < 2000)
 				{
 					n += "Shortsword";
 				}
-				else if (set->getBLength() < 750)
+				else if (set->getBLength() < 3000)
 				{
 					n += "Longsword";
 				}
@@ -80,7 +80,7 @@ void DnDProfile::setName(ParameterSet* set)
 
 		case 2:
 			//Spears and stuff
-			if (set->getHLength() > 1000)
+			if (set->getHLength() > 2000)
 			{
 				n += "Spear";
 			}

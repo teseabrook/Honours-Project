@@ -37,7 +37,7 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f), set->getHRadius());
 
 		
-			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
+		generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + set->getHLength() / DEBUG_SCALE_FACTOR), set->getHRadius(), true);
 		
 
 		texture = set->getMaterial();
@@ -141,7 +141,7 @@ void HiltMeshGenerator::initBuffers(ID3D11Device* device)
 				}
 			}
 
-			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius());
+			generateCircle(XMFLOAT3(0.0f, 0.0f, -140.0f + (set->getHLength() / DEBUG_SCALE_FACTOR)), set->getHRadius(), true);
 
 			for (int i = 0; i < length / 2; i++)
 			{

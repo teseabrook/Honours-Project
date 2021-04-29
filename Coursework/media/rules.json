@@ -40,6 +40,85 @@
 		"parameter1" : "hStyle",
 		"value" : 1.0,
 		"operator" : "=c"
+	},
+	{
+		"parameter1" : "hStyle",
+		"value" : 1.0,
+		"operator" : "c="
+	},
+	{
+		"parameter1" : "pStyle",
+		"value" : 3.0,
+		"operator" : "=c"
+	},
+	{
+		"parameter1" : "hStyle",
+		"value" : 1.0,
+		"operator" : "c="
+	},
+	{
+		"parameter1" : "pRadius",
+		"parameter2" : "hRadius",
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "hRadius",
+		"parameter2" : "pRadius",
+		"value" : 2.0,
+		"operator" : "m>"
+	},
+	{
+		"parameter1" : "hLength",
+		"parameter2" : "hRadius",
+		"value" : 3.0,
+		"operator" : "m>"
+	},
+	{
+		"parameter1" : "cShape",
+		"value" : 1.0,
+		"operator" : "!="
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 0.0,
+		"operator" : "="
+	},
+	{
+		"parameter1" : "cRadius",
+		"parameter2" : "hRadius",
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 0.0,
+		"operator" : "c>"
+	},
+	{
+		"parameter1" : "bLength",
+		"parameter2" : "sBHeight",
+		"operator" : ">c"
+	},
+	{
+		"parameter1" : "hStyle",
+		"value" : 1.0,
+		"operator" : "c="
+	},
+	{
+		"parameter1" : "wType",
+		"value" : 2.0,
+		"operator" : "=c"
+	},
+	{
+		"parameter1" : "sBHeight",
+		"parameter2" : "hRadius",
+		"operator" : ">"
+	},
+	{
+		"parameter1" : "fWidth",
+		"parameter2" : "bBreadth",
+		"value" : 2,
+		"operator" : "m<"
+
 	}
 
     ]

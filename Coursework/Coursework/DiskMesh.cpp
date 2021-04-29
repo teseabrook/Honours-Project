@@ -52,7 +52,7 @@ void DiskMesh::initBuffers(ID3D11Device* device)
 
 	if (mode == 1)
 	{
-		generateCircle(XMFLOAT3(0, 0, (radius / 6)), radius, true);
+		generateCircle(XMFLOAT3(0, 0, (radius / DEBUG_SCALE_FACTOR) * 0.5), radius, true);
 	}
 	else if (mode == 0)
 	{
@@ -157,12 +157,12 @@ void DiskMesh::generateCircle(XMFLOAT3 centre, float radius, bool invert)
 		if (invert)
 		{
 
-			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+			vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), -1.0f);
 
 		}
 		else
 		{
-			vertices[vCounter].normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
+			vertices[vCounter].normal = XMFLOAT3(sin(theta), cos(theta), 1.0f);
 		}
 		vertices[vCounter].texture = XMFLOAT2(sin(theta), cos(theta));
 

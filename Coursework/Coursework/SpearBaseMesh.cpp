@@ -28,29 +28,29 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	vertices[0].position = XMFLOAT3(0, 0, -((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  // Centre Bottom
+	vertices[0].position = XMFLOAT3(0, 0, -((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  // Centre Bottom
 	vertices[0].texture = XMFLOAT2(0, 0);
-	vertices[0].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[0].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-	vertices[1].position = XMFLOAT3(0, 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  //Centre
+	vertices[1].position = XMFLOAT3(0, 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  //Centre
 	vertices[1].texture = XMFLOAT2(0, 0);
-	vertices[1].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[1].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-	vertices[2].position = XMFLOAT3(0, set->getStWidth() / DEBUG_SCALE_FACTOR, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  //Top
+	vertices[2].position = XMFLOAT3(0, set->getStWidth() / DEBUG_SCALE_FACTOR, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  //Top
 	vertices[2].texture = XMFLOAT2(0, 0);
-	vertices[2].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[2].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	vertices[3].position = XMFLOAT3(0, -(set->getStWidth() / DEBUG_SCALE_FACTOR), (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  //Bottom
+	vertices[3].position = XMFLOAT3(0, -(set->getStWidth() / DEBUG_SCALE_FACTOR), (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  //Bottom
 	vertices[3].texture = XMFLOAT2(0, 0);
 	vertices[3].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
 
-	vertices[4].position = XMFLOAT3((set->getBWidth() / DEBUG_SCALE_FACTOR), 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  //Right
+	vertices[4].position = XMFLOAT3((set->getBWidth() / DEBUG_SCALE_FACTOR), 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  //Right
 	vertices[4].texture = XMFLOAT2(0, 0);
-	vertices[4].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[4].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
 
-	vertices[5].position = XMFLOAT3(-(set->getBWidth() / DEBUG_SCALE_FACTOR), 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 5));  //Left
+	vertices[5].position = XMFLOAT3(-(set->getBWidth() / DEBUG_SCALE_FACTOR), 0, (set->getSBHeigh() / DEBUG_SCALE_FACTOR) - ((set->getSBHeigh() / DEBUG_SCALE_FACTOR) / 4));  //Left
 	vertices[5].texture = XMFLOAT2(0, 0);
-	vertices[5].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[5].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
 
 	//First, find the point on the line between points 0 and 2
 	XMFLOAT3 distance;
@@ -87,11 +87,11 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[6].position = XMFLOAT3(0, 0, newPoint.z);  //Interpolated Point, Middle
 	vertices[6].texture = XMFLOAT2(0, 0);
-	vertices[6].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[6].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	vertices[7].position = newPoint;  //Interpolated Point, Top
 	vertices[7].texture = XMFLOAT2(0, 0);
-	vertices[7].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[7].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 
 	vertices[9].position = newPoint;  //Interpolated Point, Bottom
@@ -132,14 +132,14 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 	vertices[8].position = newPoint;  //Interpolated Point, Right
 	vertices[8].position.z = vertices[7].position.z;
 	vertices[8].texture = XMFLOAT2(0, 0);
-	vertices[8].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[8].normal = XMFLOAT3(1.0f, 0.0f, 0.0f);
 
 
 	vertices[10].position = newPoint;  //Interpolated Point, Left
 	vertices[10].position.x = -vertices[10].position.x;
 	vertices[10].position.z = vertices[7].position.z;
 	vertices[10].texture = XMFLOAT2(0, 0);
-	vertices[10].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[10].normal = XMFLOAT3(-1.0f, 0.0f, 0.0f);
 
 
 	//This is the loop point
@@ -196,23 +196,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[14].position = intPoint;
 	vertices[14].texture = XMFLOAT2(0, 0);
-	vertices[14].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[14].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[17].position = intPoint;
 	vertices[17].position.y = -vertices[17].position.y;
 	vertices[17].texture = XMFLOAT2(0, 0);
-	vertices[17].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[17].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[20].position = intPoint;
 	vertices[20].position.y = -vertices[20].position.y;
 	vertices[20].position.x = -vertices[20].position.x;
 	vertices[20].texture = XMFLOAT2(0, 0);
-	vertices[20].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[20].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[23].position = intPoint;
 	vertices[23].position.x = -vertices[23].position.x;
 	vertices[23].texture = XMFLOAT2(0, 0);
-	vertices[23].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[23].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 	///
 
@@ -232,23 +232,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[15].position = intPoint;
 	vertices[15].texture = XMFLOAT2(0, 0);
-	vertices[15].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[15].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[18].position = intPoint;
 	vertices[18].position.y = -vertices[18].position.y;
 	vertices[18].texture = XMFLOAT2(0, 0);
-	vertices[18].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[18].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[21].position = intPoint;
 	vertices[21].position.y = -vertices[21].position.y;
 	vertices[21].position.x = -vertices[21].position.x;
 	vertices[21].texture = XMFLOAT2(0, 0);
-	vertices[21].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[21].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[24].position = intPoint;
 	vertices[24].position.x = -vertices[24].position.x;
 	vertices[24].texture = XMFLOAT2(0, 0);
-	vertices[24].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[24].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 	///
 
@@ -268,23 +268,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[16].position = intPoint;
 	vertices[16].texture = XMFLOAT2(0, 0);
-	vertices[16].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[16].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[19].position = intPoint;
 	vertices[19].position.y = -vertices[19].position.y;
 	vertices[19].texture = XMFLOAT2(0, 0);
-	vertices[19].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[19].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[22].position = intPoint;
 	vertices[22].position.y = -vertices[22].position.y;
 	vertices[22].position.x = -vertices[22].position.x;
 	vertices[22].texture = XMFLOAT2(0, 0);
-	vertices[22].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[22].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[25].position = intPoint;
 	vertices[25].position.x = -vertices[25].position.x;
 	vertices[25].texture = XMFLOAT2(0, 0);
-	vertices[25].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[25].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 
 
@@ -480,23 +480,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[29].position = intPoint;
 	vertices[29].texture = XMFLOAT2(0, 0);
-	vertices[29].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[29].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[32].position = intPoint;
 	vertices[32].position.y = -vertices[32].position.y;
 	vertices[32].texture = XMFLOAT2(0, 0);
-	vertices[32].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[32].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[35].position = intPoint;
 	vertices[35].position.y = -vertices[35].position.y;
 	vertices[35].position.x = -vertices[35].position.x;
 	vertices[35].texture = XMFLOAT2(0, 0);
-	vertices[35].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[35].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[38].position = intPoint;
 	vertices[38].position.x = -vertices[38].position.x;
 	vertices[38].texture = XMFLOAT2(0, 0);
-	vertices[38].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[38].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 
 
@@ -517,23 +517,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[30].position = intPoint;
 	vertices[30].texture = XMFLOAT2(0, 0);
-	vertices[30].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[30].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[33].position = intPoint;
 	vertices[33].position.y = -vertices[33].position.y;
 	vertices[33].texture = XMFLOAT2(0, 0);
-	vertices[33].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[33].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[36].position = intPoint;
 	vertices[36].position.y = -vertices[36].position.y;
 	vertices[36].position.x = -vertices[36].position.x;
 	vertices[36].texture = XMFLOAT2(0, 0);
-	vertices[36].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[36].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[39].position = intPoint;
 	vertices[39].position.x = -vertices[39].position.x;
 	vertices[39].texture = XMFLOAT2(0, 0);
-	vertices[39].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[39].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 
 
@@ -555,23 +555,23 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 
 	vertices[31].position = intPoint;
 	vertices[31].texture = XMFLOAT2(0, 0);
-	vertices[31].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[31].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
 
 	vertices[34].position = intPoint;
 	vertices[34].position.y = -vertices[34].position.y;
 	vertices[34].texture = XMFLOAT2(0, 0);
-	vertices[34].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[34].normal = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	vertices[37].position = intPoint;
 	vertices[37].position.y = -vertices[37].position.y;
 	vertices[37].position.x = -vertices[37].position.x;
 	vertices[37].texture = XMFLOAT2(0, 0);
-	vertices[37].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[37].normal = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 
 	vertices[40].position = intPoint;
 	vertices[40].position.x = -vertices[40].position.x;
 	vertices[40].texture = XMFLOAT2(0, 0);
-	vertices[40].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[40].normal = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 
 
@@ -1118,7 +1118,7 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 		vertices[vCount].position = vertices[7 + i].position;
 		vertices[vCount].position.z = -vertices[vCount].position.z + newZ;
 		vertices[vCount].texture = XMFLOAT2(0, 0);
-		vertices[vCount].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCount].normal = vertices[7 + i].position;
 
 		vCount++;
 	}
@@ -1129,7 +1129,7 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 		vertices[vCount].position = vertices[14 + i].position;
 		vertices[vCount].position.z = -vertices[vCount].position.z + newZ;
 		vertices[vCount].texture = XMFLOAT2(0, 0);
-		vertices[vCount].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		vertices[vCount].normal = vertices[14 + i].normal;
 
 		vCount++;
 	}
@@ -1633,7 +1633,7 @@ void SpearBaseMesh::initBuffers(ID3D11Device* device)
 	//Final point
 	vertices[57].position = XMFLOAT3(0, 0, (vertices[56].position.z + (newZ / 3)));
 	vertices[57].texture = XMFLOAT2(0, 0);
-	vertices[57].normal = XMFLOAT3(0.0f, -1.0f, 0.0f);
+	vertices[57].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 
 	a = 57;

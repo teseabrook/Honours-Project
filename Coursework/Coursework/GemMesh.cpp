@@ -26,7 +26,7 @@ void GemMesh::initBuffers(ID3D11Device* device)
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	float radius = set->getPRadius() / DEBUG_SCALE_FACTOR;
+	float radius = 0.5f;
 
 	// Load the vertex array with data.
 	vertices[0].position = XMFLOAT3(0.0f, 0.0f, 0.0f);  // Centre.
@@ -82,9 +82,9 @@ void GemMesh::initBuffers(ID3D11Device* device)
 	indices[19] = 4;  // Top left.
 	indices[20] = 2;  // Bottom Left
 
-	indices[9] = 5;  // Centre/
-	indices[10] = 3;  // Top left.
-	indices[11] = 4;  // Bottom Left
+	indices[21] = 5;  // Centre/
+	indices[22] = 3;  // Top left.
+	indices[23] = 4;  // Bottom Left
 
 	vertexBufferDesc = { sizeof(VertexType) * vertexCount, D3D11_USAGE_DEFAULT, D3D11_BIND_VERTEX_BUFFER, 0, 0, 0 };
 	vertexData = { vertices, 0 , 0 };
