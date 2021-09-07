@@ -1,4 +1,0 @@
-Circle 1 consists of the points 0 (the centre) and 1 to 361
-Circle 2 consists of the points 362 (the centre) and 363 - 723
-
-A given square should consist of the triangles (pN +1, pN+2 and pN + 363) and the triangle (pN+2, pN + 364 and pN + 363), with 360 squares
